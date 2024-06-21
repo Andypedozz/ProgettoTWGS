@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <!-- Intestazione, navigation links-->
+    <header>
+        <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI IN ITALIA</h1>
+        <nav>
+            <ul id="navList">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="segnalazioni.html">Segnalazioni</a></li>
+                <li><a href="stats.html">Visualizza dati statistici</a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <h2>Lista registrazioni terremoti</h2>
+    <!-- Lista segnalazioni -->
+    <table id="tabella_segnalazioni">
+        <tr>
+            <th>Data e Ora (Italia)</th>
+            <th>Magnitudo</th>
+            <th>Zona</th>
+            <th>Prodondità</th>
+        </tr>
+        <script>
+            records = [{"date":"09-10-2022","magnitude":"4.6","zone":"Campania","depth":"50"},
+                       {"date":"08-10-2022","magnitude":"3.1","zone":"Umbria","depth":"30"},
+                       {"date":"07-10-2022","magnitude":"4.2","zone":"Emilia Romagna","depth":"40"},
+                       {"date":"06-10-2022","magnitude":"2.3","zone":"Lombardia","depth":"35"},
+                       {"date":"05-10-2022","magnitude":"2.4","zone":"Molise","depth":"38"},
+                       {"date":"04-10-2022","magnitude":"1.2","zone":"Calabria","depth":"54"},
+                       {"date":"09-10-2022","magnitude":"4.6","zone":"Campania","depth":"50"},
+                       {"date":"08-10-2022","magnitude":"3.1","zone":"Umbria","depth":"30"},
+                       {"date":"07-10-2022","magnitude":"4.2","zone":"Emilia Romagna","depth":"40"},
+                       {"date":"06-10-2022","magnitude":"2.3","zone":"Lombardia","depth":"35"},
+                       {"date":"05-10-2022","magnitude":"2.4","zone":"Molise","depth":"38"},
+                       {"date":"04-10-2022","magnitude":"1.2","zone":"Calabria","depth":"54"},
+                       {"date":"09-10-2022","magnitude":"4.6","zone":"Campania","depth":"50"},
+                       {"date":"08-10-2022","magnitude":"3.1","zone":"Umbria","depth":"30"},
+                       {"date":"07-10-2022","magnitude":"4.2","zone":"Emilia Romagna","depth":"40"},
+                       {"date":"06-10-2022","magnitude":"2.3","zone":"Lombardia","depth":"35"},
+                       {"date":"05-10-2022","magnitude":"2.4","zone":"Molise","depth":"38"},
+                       {"date":"04-10-2022","magnitude":"1.2","zone":"Calabria","depth":"54"},
+                       {"date":"09-10-2022","magnitude":"4.6","zone":"Campania","depth":"50"},
+                       {"date":"08-10-2022","magnitude":"3.1","zone":"Umbria","depth":"30"},
+                       {"date":"07-10-2022","magnitude":"4.2","zone":"Emilia Romagna","depth":"40"},
+                       {"date":"06-10-2022","magnitude":"2.3","zone":"Lombardia","depth":"35"},
+                       {"date":"05-10-2022","magnitude":"2.4","zone":"Molise","depth":"38"},
+                       {"date":"04-10-2022","magnitude":"1.2","zone":"Calabria","depth":"54"},
+                       {"date":"09-10-2022","magnitude":"4.6","zone":"Campania","depth":"50"},
+                       {"date":"08-10-2022","magnitude":"3.1","zone":"Umbria","depth":"30"},
+                       {"date":"07-10-2022","magnitude":"4.2","zone":"Emilia Romagna","depth":"40"},
+                       {"date":"06-10-2022","magnitude":"2.3","zone":"Lombardia","depth":"35"},
+                       {"date":"05-10-2022","magnitude":"2.4","zone":"Molise","depth":"38"},
+                       {"date":"04-10-2022","magnitude":"1.2","zone":"Calabria","depth":"54"},
+                       {"date":"09-10-2022","magnitude":"4.6","zone":"Campania","depth":"50"},
+                       {"date":"08-10-2022","magnitude":"3.1","zone":"Umbria","depth":"30"},
+                       {"date":"07-10-2022","magnitude":"4.2","zone":"Emilia Romagna","depth":"40"},
+                       {"date":"06-10-2022","magnitude":"2.3","zone":"Lombardia","depth":"35"},
+                       {"date":"05-10-2022","magnitude":"2.4","zone":"Molise","depth":"38"},
+                       {"date":"04-10-2022","magnitude":"1.2","zone":"Calabria","depth":"54"},
+                       {"date":"09-10-2022","magnitude":"4.6","zone":"Campania","depth":"50"},
+                       {"date":"08-10-2022","magnitude":"3.1","zone":"Umbria","depth":"30"},
+                       {"date":"07-10-2022","magnitude":"4.2","zone":"Emilia Romagna","depth":"40"},
+                       {"date":"06-10-2022","magnitude":"2.3","zone":"Lombardia","depth":"35"},
+                       {"date":"05-10-2022","magnitude":"2.4","zone":"Molise","depth":"38"},
+                       {"date":"04-10-2022","magnitude":"1.2","zone":"Calabria","depth":"54"}
+            ];
+            var tabella = document.getElementById("tabella_segnalazioni");
+            for(i = 0; i < records.length; i++) {
+                var nuovoLink = document.createElement('a');
+                nuovoLink.href = 'segnalazione.html';
+                nuovoLink.innerText = records[i].date;
+                var nuovaRiga = tabella.insertRow();
+                var cella1 = nuovaRiga.insertCell(0);
+                var cella2 = nuovaRiga.insertCell(1);
+                var cella3 = nuovaRiga.insertCell(2);
+                var cella4 = nuovaRiga.insertCell(3);
+                cella1.innerHTML = nuovoLink.innerText;
+                cella2.innerHTML = records[i].magnitude;
+                cella3.innerHTML = records[i].zone;
+                cella4.innerHTML = records[i].depth;
+            }
+        </script>
+    </table>
+    <footer>
+        <p>I dati utilizzati in questo strumento sono OpenData provenienti da www.dati.gov.it</p>
+    </footer>
+</body>
+</html>

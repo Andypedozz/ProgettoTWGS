@@ -1,0 +1,60 @@
+#title, h2 {
+    border: 1px solid black;
+    text-align: center;
+}
+
+#navList {
+    text-align: center;
+}
+
+#instructions {
+    text-align: center;
+}
+
+#navList > li{
+    border: 1px solid black;
+    display: inline;
+    margin-right: 100px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#navList > li > a {
+    text-decoration: none;
+}
+
+table {
+    margin: auto;
+}
+
+th {
+    border: 1px solid black;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: rgb(70,70,70);
+    color: lightgray;
+}
+
+td {
+    text-align: center;
+    border: 1px solid black;
+    background-color: white;
+}
+
+h1, h2, li, a {
+    background-color: rgb(28,28,28);
+    color: lightgray;
+}
+
+footer {
+    border: 1px solid black;
+    background-color: rgb(28,28,28);
+    text-align: center;
+    color: white;
+}
+
+body {
+    background-color: rgb(200,200,200);
+}

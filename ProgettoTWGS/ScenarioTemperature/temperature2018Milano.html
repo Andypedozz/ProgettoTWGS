@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Elaborazione OpenData</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  </head>
+  <body>
+    <h1>Temperature a Milano, 2018</h1>
+    <canvas id="myChart" width="400" height="200"></canvas>
+    <p id="pid">
+      <h><b>Temperatura media giornaliera:</b></h>
+    </p>
+
+    <script>
+      
+      window.addEventListener('load', setupMilano);
+
+      
+      async function setupMilano() {
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const lamTime = await getDataMilano();
+        const myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: lamTime.lambratedatetime,
+            datasets: [
+              {
+                label: 'Temperature in °C',
+                data: lamTime.lambratetemps,
+                fill: false,
+                borderColor: 'rgba(255, 99, 132, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {}
+        });
+        
+        const media = await getMedia();
+        const par = document.getElementById("pid");
+        par.innerHTML += media.val;
+      }
+      
+      async function getDataMilano() {
+        const response = await fetch('/milano2018csv');
+        const temperature = await response.json();
+        //console.log("Orari Campionamenti: " + temperature['datetime']);
+        const lambratedatetime = temperature['datetime'];
+        //console.log("Campionamenti: " + temperature['temperature']);
+        const lambratetemps = temperature['temperature'];
+          
+        return { lambratedatetime, lambratetemps }; 
+      }
+      
+      async function getMedia(){
+        const response = await fetch('/media');
+        const tempmedia = await response.json();
+        const val = tempmedia['media'];
+        return {val }; 
+      }
+    </script>
+  </body>
+</html>
