@@ -1,0 +1,87 @@
+.header-div > header > h1 {
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 20px;
+    background: linear-gradient(lightblue, white, lightblue);
+}
+
+nav {
+    text-align: center;
+}
+
+.message-div > p, footer {
+    text-align: center;
+}
+
+#navlist > ul > li {
+    display: inline-block;
+    margin-left: 40px;
+    margin-right: 40px;
+}
+
+#navlist > ul > li > a {
+    padding-left: 40px;
+    padding-right: 40px;
+    border: 1px solid;
+    border-radius: 20px;
+    background: linear-gradient(lightblue, white, lightblue);
+}
+
+#navlist > ul > li > a {
+    text-decoration: none;
+    color: black;
+}
+
+.notizie {
+    text-align: center;
+}
+
+.notizie > article{
+    display: inline-block;
+    margin-left: 40px;
+    margin-right: 40px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+#tabella {
+    margin: auto;
+}
+
+td {
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+th {
+    border: 1px solid black;
+    border-radius: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: rgb(220, 245, 253)
+}
+
+.page-buttons {
+    text-align: center;
+}
+
+.page-index {
+    padding-left: 20px;
+    padding-right: 20px;
+    border: 1px solid;
+    border-radius: 20px;
+}
+
+.next-page, .previous-page {
+    border: 1px solid;
+    border-radius: 20px;
+}
+
+.next-page:hover, .previous-page:hover {
+    background-color: lightblue;
+}
+
+.next-page:active, .previous-page:active {
+    background-color: rgb(73, 199, 241);
+}
