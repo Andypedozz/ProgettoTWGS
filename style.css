@@ -66,22 +66,22 @@ th {
     text-align: center;
 }
 
-.page-index {
+#page-index {
     padding-left: 20px;
     padding-right: 20px;
     border: 1px solid;
     border-radius: 20px;
 }
 
-.next-page, .previous-page {
+#next-page, #previous-page {
     border: 1px solid;
     border-radius: 20px;
 }
 
-.next-page:hover, .previous-page:hover {
+#next-page:hover, #previous-page:hover {
     background-color: lightblue;
 }
 
-.next-page:active, .previous-page:active {
+#next-page:active, #previous-page:active {
     background-color: rgb(73, 199, 241);
 }

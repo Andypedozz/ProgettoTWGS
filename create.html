@@ -22,28 +22,27 @@
     </div>
     <hr>
     <div class="create-report-div">
-        <label>Giorno</label>
-        <input type=""/><br>
-        <label>Mese</label>
-        <input type=""/><br>
-        <label>Anno</label>
-        <input type=""/><br>
-        <label>Ora</label>
-        <input type=""/><br>
-        <label>Latitudine</label>
-        <input type=""/><br>
-        <label>Longitudine</label>
-        <input type=""/><br>
-        <label>Profondità</label>
-        <input type=""/><br>
-        <label>Autore</label>
-        <input type=""/><br>
-        <label>MagType</label>
-        <input type=""/><br>
-        <label>Magnitudo</label>
-        <input type=""/><br>
-        <label>Località</label>
-        <input type=""/><br>
+        <form action="/earthquake" method="post">
+            <label>Data</label>
+            <input type="date"/><br>
+            <label>Ora</label>
+            <input type="time"/><br>
+            <label>Latitudine</label>
+            <input type="number"/><br>
+            <label>Longitudine</label>
+            <input type="number"/><br>
+            <label>Profondità</label>
+            <input type="number"/><br>
+            <label>Autore</label>
+            <input type="text"/><br>
+            <label>MagType</label>
+            <input type="text"/><br>
+            <label>Magnitudo</label>
+            <input type="number"/><br>
+            <label>Località</label>
+            <input type="text"/><br>
+            <input type="submit" value="Conferma"/>
+        </form>
     </div>
 </body>
 </html>

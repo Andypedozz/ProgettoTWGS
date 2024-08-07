@@ -12,7 +12,9 @@ var currentEarthquakes = JSON.parse(earthquakes);
 
 app.use(express.static(path.join(__dirname, "/")));
 
-// ENDPOINTS
+/****************************/
+/*         ENDPOINT         */
+/****************************/
 
 // GET: ottieni la lista di tutti i terremoti
 app.get('/earthquakes', (req, res) => {
@@ -47,6 +49,14 @@ app.get('/earthquakes', (req, res) => {
 // POST: crea una nuova segnalazione
 app.post("/earthquake", (req, res) => {
     const earthquake = req.body;
+
+    let data = Object.values(currentEarthquakes);
+    let lastRecord = data[data.length - 1];
+    let lastId = lastRecord[0];
+    let lastEventId = lastRecord[1];
+
+    earthquake[0] = lastId + 1;;
+    earthquake[1] = lastEventId + 1;;
     console.log(earthquake);
     currentEarthquakes.push(earthquake);
 
@@ -54,7 +64,6 @@ app.post("/earthquake", (req, res) => {
     console.log("Terremoti attualmente in lista: "+ currentEarthquakes.length);
 
     fs.writeFileSync("earthquakes.json", JSON.stringify(currentEarthquakes));
-    res.type("application/json").send(JSON.stringify(currentEarthquakes));
 });
 
 // PUT: aggiorna una segnalazione --> aggiorna il magnitudo data la posizione della segnalazione
@@ -79,7 +88,9 @@ app.put("/earthquake/:id/:magnitude", (req, res) => {
     res.sendStatus(404);
 });
 
-// ENDPOINT GUI
+/********************************/
+/*         ENDPOINT GUI         */
+/********************************/
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "home.html"));
@@ -89,19 +100,39 @@ app.get("/home", (req, res) => {
     res.sendFile(path.join(__dirname, "home.html"));
 });
 
-app.get("/segnalazioni", async function(req, res) {
-    let html = await readHtml("segnalazioni.html");
+app.get("/segnalazioni", (req, res) => {
+    let html = fs.readFileSync("segnalazioni.html");
     let data = currentEarthquakes;
 
-    const startIndex = req.query.startIndex;
-    const endIndex = req.query.endIndex;
+    let page = req.query.page;
 
-    if(startIndex != null && endIndex != null) {
-        data = data.slice(startIndex,endIndex);
-    }else{
-        data = data.slice(0,40);
+    if(page == null)
+        page = 1;
+    let startIndex = (page - 1) * 40;
+    let endIndex = startIndex + 40;
+    data = data.slice(startIndex,endIndex);
+
+    const $ = cheerio.load(html);
+
+    const table = $('tbody');
+
+    for(var record of data) {
+        table.append("<tr>",
+                        "<td><a href='/segnalazione?id="+record[0]+"'>"+record[0]+"</a></td>",
+                        "<td>"+record[1]+"</td>",
+                        "<td>"+record[2]+"</td>",
+                        "<td>"+record[3]+"</td>",
+                        "<td>"+record[4]+"</td>",
+                        "<td>"+record[5]+"</td>",
+                        "<td>"+record[6]+"</td>",
+                        "<td>"+record[7]+"</td>",
+                        "<td>"+record[8]+"</td>",
+                        "<td>"+record[9]+"</td>",
+                    "</tr>"
+        );
     }
-    html = await loadReports(html,data);
+
+    html = $.html();
     res.send(html);
 });
 
@@ -119,56 +150,14 @@ app.get("/segnalazione", async function(req, res) {
     res.sendFile(path.join(__dirname, "segnalazione.html"));
 });
 
+app.get("/create", (req, res) => {
+    res.sendFile(path.join(__dirname, "create.html"));
+});
+
 app.get("/stats", (req, res) => {
-    res.sendFile(path.join(__dirname, "home.html"));
+    res.sendFile(path.join(__dirname, "stats.html"));
 });
 
 app.listen(port, () => {
     console.log("Server in ascolto sulla porta "+port);
 });
-
-/*****************************/
-/*          FUNCTIONS        */
-/*****************************/
-
-async function readHtml(filepath) {
-    return new Promise((resolve,reject) => {
-        fs.readFile(filepath, "utf8", (err,data) =>{
-            if(err) {
-                reject(err);
-            }
-            resolve(data);
-        });
-    });
-}
-
-async function loadReports(html, records) {
-    return new Promise((resolve,reject) => {
-        const $ = cheerio.load(html);
-
-        const table = $('tbody');
-    
-        for(var record of records) {
-            table.append("<tr>",
-                            "<td><a href='/segnalazione?id="+record[0]+"'>"+record[0]+"</a></td>",
-                            "<td>"+record[1]+"</td>",
-                            "<td>"+record[2]+"</td>",
-                            "<td>"+record[3]+"</td>",
-                            "<td>"+record[4]+"</td>",
-                            "<td>"+record[5]+"</td>",
-                            "<td>"+record[6]+"</td>",
-                            "<td>"+record[7]+"</td>",
-                            "<td>"+record[8]+"</td>",
-                            "<td>"+record[9]+"</td>",
-                        "</tr>"
-            );
-        }
-
-
-        resolve($.html());
-    });
-}
-
-async function loadReport(html, record) {
-    
-}

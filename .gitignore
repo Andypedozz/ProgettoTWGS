@@ -49,6 +49,8 @@ jspm_packages/
 #Earthquakes data
 earthquakes/
 
+server-film.js
+
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
 

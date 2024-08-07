@@ -36,18 +36,13 @@
                     <th>Magnitudo</th>
                     <th>Zona</th>
                 </tr>
-                <script>
-                    var link = document.getElementById("link");
-                    var id = link.innerText;
-                    link.setAttribute('href', '/segnalazione?'+'id='+id);
-                </script>
             </tbody>
         </table>
     </div>
     <div class="page-buttons">
-        <button class="next-page">Avanti</button>
-        <label class="page-index">1</label>
-        <button class="previous-page">Indietro</button>
+        <button id="next-page">Avanti</button>
+        <label id="page-index"></label>
+        <button id="previous-page">Indietro</button>
     </div>
 </body>
 </html>
