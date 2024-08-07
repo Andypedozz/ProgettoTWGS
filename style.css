@@ -27,7 +27,7 @@ nav {
     background: linear-gradient(lightblue, white, lightblue);
 }
 
-#navlist > ul > li > a {
+a {
     text-decoration: none;
     color: black;
 }

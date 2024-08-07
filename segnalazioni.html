@@ -14,6 +14,7 @@
                 <ul>
                     <li><a href="/home">Home</a></li>
                     <li><a href="/segnalazioni">Segnalazioni</a></li>
+                    <li><a href="/create">Aggiungi una segnalazione</a></li>
                     <li><a href="/stats">Statistiche</a></li>
                 </ul>
             </nav>
@@ -35,6 +36,11 @@
                     <th>Magnitudo</th>
                     <th>Zona</th>
                 </tr>
+                <script>
+                    var link = document.getElementById("link");
+                    var id = link.innerText;
+                    link.setAttribute('href', '/segnalazione?'+'id='+id);
+                </script>
             </tbody>
         </table>
     </div>

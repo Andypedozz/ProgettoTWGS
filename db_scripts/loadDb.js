@@ -30,35 +30,9 @@ async function parseCSV() {
     })
 }
 
-function loadDbTest(records) {
-
-    var con = mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        password: "EraserH34d_#",
-        database: "terremoti"
-    });
-
-    con.connect(function(err) {
-        if(err)
-            throw err;
-        var sql = "INSERT INTO eventi (id, EventID, Time, Latitude, Longitude, Depth, Author, MagType, Magnitude, Zone) VALUES ?";
-        con.query(sql,[records], function(err, results) {
-            if(err)
-                throw err;
-            console.log("Records inseriti: "+results.affectedRows);
-        })
-    });
-    con.commit();
+async function createJson() {
+    const records = await parseCSV()
+    fs.writeFileSync("earthquakes.json", JSON.stringify(records));
 }
 
-async function main() {
-    try{
-        const data = await parseCSV();
-        loadDbTest(data);
-    }catch(error) {
-        console.error("Error reading the CSV file: "+error);
-    }
-}
-
-main();
+createJson();
