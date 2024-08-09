@@ -7,7 +7,7 @@ const { start } = require("repl");
 const app = express();
 const port = 3000;
 
-const earthquakes = fs.readFileSync("earthquakes.json");
+const earthquakes = fs.readFileSync("src/db/earthquakes.json");
 var currentEarthquakes = JSON.parse(earthquakes);
 
 app.use(express.static(path.join(__dirname, "/")));
@@ -93,15 +93,15 @@ app.put("/earthquake/:id/:magnitude", (req, res) => {
 /********************************/
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "home.html"));
+    res.sendFile(path.join(__dirname, "src/pages/home/home.html"));
 });
 
 app.get("/home", (req, res) => {
-    res.sendFile(path.join(__dirname, "home.html"));
+    res.sendFile(path.join(__dirname, "src/pages/home/home.html"));
 });
 
 app.get("/segnalazioni", (req, res) => {
-    let html = fs.readFileSync("segnalazioni.html");
+    let html = fs.readFileSync("src/pages/segnalazioni/segnalazioni.html");
     let data = currentEarthquakes;
 
     let page = req.query.page;
@@ -137,25 +137,15 @@ app.get("/segnalazioni", (req, res) => {
 });
 
 app.get("/segnalazione", async function(req, res) {
-    // let html = await readHtml("segnalazione.html");
-    // let data = Object.values(currentEarthquakes);
-    
-    // if(id == null) {
-    //     res.sendStatus(403);
-    //     return;
-    // }
-
-    // let id = req.query.id;
-    // data = data[id];
-    res.sendFile(path.join(__dirname, "segnalazione.html"));
+    res.sendFile(path.join(__dirname, "src/pages/segnalazione/segnalazione.html"));
 });
 
 app.get("/create", (req, res) => {
-    res.sendFile(path.join(__dirname, "create.html"));
+    res.sendFile(path.join(__dirname, "src/pages/create/create.html"));
 });
 
 app.get("/stats", (req, res) => {
-    res.sendFile(path.join(__dirname, "stats.html"));
+    res.sendFile(path.join(__dirname, "src/pages/stats/stats.html"));
 });
 
 app.listen(port, () => {
