@@ -47,7 +47,7 @@ node_modules/
 jspm_packages/
 
 #Earthquakes data
-earthquakes/
+*.csv
 
 server-film.js
 
