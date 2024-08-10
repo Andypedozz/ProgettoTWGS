@@ -7,42 +7,36 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
-    <div class="header-div">
-        <header>
-            <h1>SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
-            <nav id="navlist">
-                <ul>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/segnalazioni">Segnalazioni</a></li>
-                    <li><a href="/create">Aggiungi una segnalazione</a></li>
-                    <li><a href="/stats">Statistiche</a></li>
-                </ul>
-            </nav>
-        </header>
-        <hr>
-    </div>
-    <div>
-        <table id="tabella">
-            <tbody>
-                <tr>
-                    <th>ID</th>
-                    <th>EventID</th>
-                    <th>Data e ora (Italia)</th>
-                    <th>Latitudine</th>
-                    <th>Longitudine</th>
-                    <th>Profondità</th>
-                    <th>Autore</th>
-                    <th>MagType</th>
-                    <th>Magnitudo</th>
-                    <th>Zona</th>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="page-buttons">
-        <button id="next-page">Avanti</button>
-        <label id="page-index"></label>
-        <button id="previous-page">Indietro</button>
-    </div>
+    <header>
+        <h1>SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
+        <nav id="navlist">
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/segnalazioni">Segnalazioni</a></li>
+                <li><a href="/create">Aggiungi una segnalazione</a></li>
+                <li><a href="/stats">Statistiche</a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <table id="tabella">
+        <tbody>
+            <tr>
+                <th>ID</th>
+                <th>EventID</th>
+                <th>Data e ora (Italia)</th>
+                <th>Latitudine</th>
+                <th>Longitudine</th>
+                <th>Profondità</th>
+                <th>Autore</th>
+                <th>MagType</th>
+                <th>Magnitudo</th>
+                <th>Zona</th>
+            </tr>
+        </tbody>
+    </table>
+    <a id="previous-page">Indietro</a>
+    <label id="page-index"></label>
+    <a id="next-page">Avanti</a>
 </body>
 </html>

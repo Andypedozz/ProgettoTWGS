@@ -3,46 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aggiungi una segnalazione</title>
+    <title>Consultazione Terremoti</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
 </head>
 <body>
-    <div class="header-div">
-        <header>
-            <h1>SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
-            <nav id="navlist">
-                <ul>
-                    <li><a href="/home">Home</a></li>
-                    <li><a href="/segnalazioni">Segnalazioni</a></li>
-                    <li><a href="/create">Aggiungi una segnalazione</a></li>
-                    <li><a href="/stats">Statistiche</a></li>
-                </ul>
-            </nav>
-        </header>
-    </div>
+    <header>
+        <h1>SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
+        <nav id="navlist">
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/segnalazioni">Segnalazioni</a></li>
+                <li><a href="/create">Aggiungi una segnalazione</a></li>
+                <li><a href="/stats">Statistiche</a></li>
+            </ul>
+        </nav>
+    </header>
     <hr>
-    <div class="create-report-div">
-        <form action="/earthquake" method="post">
-            <label>Data</label>
-            <input type="date"/><br>
-            <label>Ora</label>
-            <input type="time"/><br>
-            <label>Latitudine</label>
-            <input type="number"/><br>
-            <label>Longitudine</label>
-            <input type="number"/><br>
-            <label>Profondità</label>
-            <input type="number"/><br>
-            <label>Autore</label>
-            <input type="text"/><br>
-            <label>MagType</label>
-            <input type="text"/><br>
-            <label>Magnitudo</label>
-            <input type="number"/><br>
-            <label>Località</label>
-            <input type="text"/><br>
-            <input type="submit" value="Conferma"/>
-        </form>
-    </div>
+    <form action="/earthquake" method="post">
+        <label>Data</label>
+        <input type="date"/><br>
+        <label>Ora</label>
+        <input type="time"/><br>
+        <label>Latitudine</label>
+        <input type="number"/><br>
+        <label>Longitudine</label>
+        <input type="number"/><br>
+        <label>Profondità</label>
+        <input type="number"/><br>
+        <label>Autore</label>
+        <input type="text"/><br>
+        <label>MagType</label>
+        <input type="text"/><br>
+        <label>Magnitudo</label>
+        <input type="number"/><br>
+        <label>Località</label>
+        <input type="text"/><br>
+        <input type="submit" value="Conferma"/>
+    </form>
 </body>
 </html>

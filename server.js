@@ -1,9 +1,7 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const mysql = require("mysql");
 const cheerio = require("cheerio");
-const { start } = require("repl");
 const app = express();
 const port = 3000;
 
@@ -114,8 +112,8 @@ app.get("/segnalazioni", (req, res) => {
 
     const $ = cheerio.load(html);
 
+    // carico la tabella
     const table = $('tbody');
-
     for(var record of data) {
         table.append("<tr>",
                         "<td><a href='/segnalazione?id="+record[0]+"'>"+record[0]+"</a></td>",
@@ -132,6 +130,23 @@ app.get("/segnalazioni", (req, res) => {
         );
     }
 
+    // Setto l'indice di pagina
+    const pageIndex = $('#page-index');
+    pageIndex.text(page);
+
+    // Setto i tasti avanti e indietro pagina
+    const nextPageBtn = $("#next-page");
+    const nextPage = parseInt(page) + 1;
+    const previousPage = parseInt(page) - 1;
+    const previousPageBtn = $('#previous-page');
+    if(page != 1) {
+        previousPageBtn.attr('href', '/segnalazioni?page='+previousPage);
+    }
+
+    if(data[data.length - 1][0] !== currentEarthquakes[currentEarthquakes.length - 1][0]) {
+        nextPageBtn.attr('href', '/segnalazioni?page='+nextPage);
+    }
+    
     html = $.html();
     res.send(html);
 });
