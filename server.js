@@ -7,8 +7,8 @@ const port = 3000;
 
 const earthquakes = fs.readFileSync("src/db/earthquakes.json");
 var currentEarthquakes = JSON.parse(earthquakes);
-currentEarthquakes = currentEarthquakes.reverse();
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/")));
 
 /****************************/
@@ -23,15 +23,15 @@ app.get('/earthquakes', (req, res) => {
     }
 
     const id = req.query.id;
-    const startIndex = req.query.startIndex;
-    const endIndex = req.query.endIndex;
-
     if(id != null) {
         let data = Object.values(currentEarthquakes);
         res.json(data[Number.parseInt(id)]);
         console.log("Index");
         return 0;
     }
+
+    const startIndex = req.query.startIndex;
+    const endIndex = req.query.endIndex;
 
     if(startIndex != null && endIndex != null) {
         let data = Object.values(currentEarthquakes);
@@ -45,9 +45,52 @@ app.get('/earthquakes', (req, res) => {
     res.json(currentEarthquakes);
 });
 
+app.get("/earthquakes/query", (req, res) => {
+    const key = req.query.key;
+    const value = req.query.value;
+
+    let result = [];
+
+    switch(key) {
+        case "ID":
+            result = currentEarthquakes.filter((record) => parseInt(record[0]) === parseInt(value));
+            break;
+        case "EventID":
+            result = currentEarthquakes.filter((record) => parseInt(record[1]) === parseInt(value));
+            break;
+        case "Data e Ora":
+            result = currentEarthquakes.filter((record) => record[2] === value);
+            break;
+        case "Latitudine":
+            result = currentEarthquakes.filter((record) => parseFloat(record[3]) === parseFloat(value));
+            break;
+        case "Longitudine":
+            result = currentEarthquakes.filter((record) => parseFloat(record[4]) === parseFloat(value));
+            break;
+        case "Profondità":
+            result = currentEarthquakes.filter((record) => parseFloat(record[5]) === parseFloat(value));
+            break;
+        case "Autore":
+            result = currentEarthquakes.filter((record) => record[6] === value);
+            break;
+        case "MagType":
+            result = currentEarthquakes.filter((record) => record[7] === value);
+            break;
+        case "Magnitudo":
+            result = currentEarthquakes.filter((record) => parseFloat(record[8]) === parseFloat(value));
+            break;
+        case "Zona":
+            result = currentEarthquakes.filter((record) => record[9] === value);
+            break;
+    }
+
+    res.json(result);
+});
+
 // POST: crea una nuova segnalazione
-app.post("/earthquake", (req, res) => {
-    const data = req.body;
+app.post("/earthquakes/add", (req, res) => {
+    console.log(req.body);
+    let data = req.body;
     let earthquake = [];
 
     let lastRecord = currentEarthquakes[currentEarthquakes.length - 1];
@@ -56,12 +99,18 @@ app.post("/earthquake", (req, res) => {
 
     earthquake.push(lastId + 1);
     earthquake.push(lastEventId + 1);
-    for(var field in data) {
-        earthquake.push(data[i]);
-    }
+    earthquake.push(data.datetime);
+    earthquake.push(data.latitude);
+    earthquake.push(data.longitude);
+    earthquake.push(data.depth);
+    earthquake.push(data.author);
+    earthquake.push(data.magType);
+    earthquake.push(data.magnitude);
+    earthquake.push(data.zone);
 
     console.log(earthquake);
-    currentEarthquakes.unshift(earthquake);
+    res.send(earthquake.json);
+    currentEarthquakes.push(earthquake);
 
     console.log("Terremoto aggiunto!");
     console.log("Terremoti attualmente in lista: "+ currentEarthquakes.length);
@@ -70,25 +119,7 @@ app.post("/earthquake", (req, res) => {
 });
 
 // PUT: aggiorna una segnalazione --> aggiorna il magnitudo data la posizione della segnalazione
-app.put("/earthquake/:id/:magnitude", (req, res) => {
-    if(currentEarthquakes.length == 0) {
-        res.type('text/plain').send("Non ci sono terremoti disponibili!");
-        return 0;
-    }
-
-    const index = Number.parseInt(req.params.id);
-    const magnitude = req.params.magnitude;
-
-    if(index > 0 && index <= currentEarthquakes.length) {
-        var elem = currentEarthquakes[index - 1];
-        elem.Magnitude = magnitude;
-        currentEarthquakes[index - 1] = elem;
-        fs.writeFileSync("earthquakes.json", JSON.stringify(currentEarthquakes));
-        res.type("text/plain").send("Segnalazione aggiornata");
-        return;
-    }
-    // segnalazione cercata assente
-    res.sendStatus(404);
+app.put("/earthquakes/modify", (req, res) => {
 });
 
 /********************************/
@@ -106,8 +137,9 @@ app.get("/home", (req, res) => {
 app.get("/segnalazioni", (req, res) => {
     let html = fs.readFileSync("src/pages/segnalazioni/segnalazioni.html");
     let page = req.query.page;
-    let data = currentEarthquakes;
-
+    let data = currentEarthquakes.slice();
+    data = data.reverse();
+    
     if(page == null)
         page = 1;
     let startIndex = (page - 1) * 40;
@@ -153,6 +185,10 @@ app.get("/segnalazioni", (req, res) => {
     
     html = $.html();
     res.send(html);
+});
+
+app.get("/ricerca", (req, res) => {
+    res.sendFile(path.join(__dirname, "src/pages/ricerca/ricerca.html"));
 });
 
 app.get("/segnalazione", async function(req, res) {

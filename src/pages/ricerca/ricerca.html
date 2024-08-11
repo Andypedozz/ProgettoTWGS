@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consultazione Terremoti</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="src/pages/ricerca/ricerca.css" />
+</head>
+<body>
+    <header>
+        <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
+        <nav id="navlist">
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/segnalazioni">Segnalazioni</a></li>
+                <li><a href="/ricerca">Ricerca</a></li>
+                <li><a href="/create">Aggiungi una segnalazione</a></li>
+                <li><a href="/stats">Statistiche</a></li>
+            </ul>
+        </nav>
+    </header>
+    <hr>
+    <h2>Ricerca segnalazioni</h2>
+    <form action="/earthquakes/query" method="get">
+        <p>
+            <label>Proprietà</label>
+            <select name="key">
+                <option>Seleziona</option>
+                <option>ID</option>
+                <option>EventID</option>
+                <option>Latitudine</option>
+                <option>Longitudine</option>
+                <option>Profondità</option>
+                <option>Autore</option>
+                <option>MagType</option>
+                <option>Magnitudo</option>
+                <option>Zona</option>
+            </select>
+        </p>
+        <p>
+            <label>Valore</label>
+            <input type="text" name="value">
+        </p>
+        <p>
+            <input type="submit" id="#confirm" value="Cerca" />
+        </p>
+    </form>
+</body>
+</html>

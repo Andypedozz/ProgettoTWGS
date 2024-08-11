@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Consultazione Terremoti</title>
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" type="text/css" href="src/pages/create/create.css" />
 </head>
 <body>
@@ -13,6 +14,7 @@
             <ul>
                 <li><a href="/home">Home</a></li>
                 <li><a href="/segnalazioni">Segnalazioni</a></li>
+                <li><a href="/ricerca">Ricerca</a></li>
                 <li><a href="/create">Aggiungi una segnalazione</a></li>
                 <li><a href="/stats">Statistiche</a></li>
             </ul>
@@ -21,40 +23,36 @@
     <hr>
     <form action="/earthquake" method="post">
         <p>
-            <label>Data</label>
-            <input type="date"/><br>
-        </p>
-        <p>
-            <label>Ora</label>
-            <input type="time"/><br>
+            <label>Data e ora</label>
+            <input type="datetime-local" name="datetime" required="true"/><br>
         </p>
         <p>
             <label>Latitudine</label>
-            <input type="number"/><br>
+            <input type="number" name="latitude" required="true"/><br>
         </p>
         <p>
             <label>Longitudine</label>
-            <input type="number"/><br>
+            <input type="number" name="longitude" required="true"/><br>
         </p>
         <p>
             <label>Profondità</label>
-            <input type="number"/><br>
+            <input type="number" name="depth" required="true"/><br>
         </p>
         <p>
             <label>Autore</label>
-            <input type="text"/><br>
+            <input type="text" name="author"/><br>
         </p>
         <p>
             <label>MagType</label>
-            <input type="text"/><br>
+            <input type="text" name="magType" required="true"/><br>
         </p>
         <p>
             <label>Magnitudo</label>
-            <input type="number"/><br>
+            <input type="number" name="magnitude" required="true"/><br>
         </p>
         <p>
             <label>Località</label>
-            <input type="text"/><br>
+            <input type="text" name="zone" required="true"/><br>
         </p>
         <input id="confirm" type="submit" value="Conferma"/>
     </form>
