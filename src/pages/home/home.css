@@ -1,0 +1,51 @@
+/****************************/
+/*          COMMON          */
+/****************************/
+
+#title {
+    text-align: center;
+    border: 1px solid;
+    border-radius: 20px;
+    background: radial-gradient(white, lightblue);
+}
+
+#navlist {
+    text-align: center;
+}
+
+#navlist > ul > li {
+    display: inline-block;
+    border: 1px solid;
+    border-radius: 5px;
+    padding-left: 1%;
+    padding-right: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
+    background: radial-gradient(white, lightblue);
+}
+
+@media (max-width: 520px) {
+    #navlist > ul > li {
+        padding-left: 1%;
+        padding-right: 1%;
+        margin-left: 0%;
+        margin-right: 0%;
+    }
+}
+
+#navlist > ul > li > a {
+    text-decoration: none;
+    color: black;
+}
+
+footer {
+    text-align: center;
+}
+
+/*****************************/
+/*          SPECIFIC         */
+/*****************************/
+
+#intro {
+    text-align: center;
+}

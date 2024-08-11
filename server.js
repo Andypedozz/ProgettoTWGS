@@ -7,6 +7,7 @@ const port = 3000;
 
 const earthquakes = fs.readFileSync("src/db/earthquakes.json");
 var currentEarthquakes = JSON.parse(earthquakes);
+currentEarthquakes = currentEarthquakes.reverse();
 
 app.use(express.static(path.join(__dirname, "/")));
 
@@ -46,22 +47,26 @@ app.get('/earthquakes', (req, res) => {
 
 // POST: crea una nuova segnalazione
 app.post("/earthquake", (req, res) => {
-    const earthquake = req.body;
+    const data = req.body;
+    let earthquake = [];
 
-    let data = Object.values(currentEarthquakes);
-    let lastRecord = data[data.length - 1];
-    let lastId = lastRecord[0];
-    let lastEventId = lastRecord[1];
+    let lastRecord = currentEarthquakes[currentEarthquakes.length - 1];
+    let lastId = parseInt(lastRecord[0]);
+    let lastEventId = parseInt(lastRecord[1]);
 
-    earthquake[0] = lastId + 1;;
-    earthquake[1] = lastEventId + 1;;
+    earthquake.push(lastId + 1);
+    earthquake.push(lastEventId + 1);
+    for(var field in data) {
+        earthquake.push(data[i]);
+    }
+
     console.log(earthquake);
-    currentEarthquakes.push(earthquake);
+    currentEarthquakes.unshift(earthquake);
 
     console.log("Terremoto aggiunto!");
     console.log("Terremoti attualmente in lista: "+ currentEarthquakes.length);
 
-    fs.writeFileSync("earthquakes.json", JSON.stringify(currentEarthquakes));
+    fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
 });
 
 // PUT: aggiorna una segnalazione --> aggiorna il magnitudo data la posizione della segnalazione
@@ -100,9 +105,8 @@ app.get("/home", (req, res) => {
 
 app.get("/segnalazioni", (req, res) => {
     let html = fs.readFileSync("src/pages/segnalazioni/segnalazioni.html");
-    let data = currentEarthquakes;
-
     let page = req.query.page;
+    let data = currentEarthquakes;
 
     if(page == null)
         page = 1;
@@ -116,16 +120,16 @@ app.get("/segnalazioni", (req, res) => {
     const table = $('tbody');
     for(var record of data) {
         table.append("<tr>",
-                        "<td><a href='/segnalazione?id="+record[0]+"'>"+record[0]+"</a></td>",
-                        "<td>"+record[1]+"</td>",
-                        "<td>"+record[2]+"</td>",
-                        "<td>"+record[3]+"</td>",
-                        "<td>"+record[4]+"</td>",
-                        "<td>"+record[5]+"</td>",
-                        "<td>"+record[6]+"</td>",
-                        "<td>"+record[7]+"</td>",
-                        "<td>"+record[8]+"</td>",
-                        "<td>"+record[9]+"</td>",
+                        "<td class='td_id'><a href='/segnalazione?id="+record[0]+"'>"+record[0]+"</a></td>",
+                        "<td class='td_event_id'>"+record[1]+"</td>",
+                        "<td class='td_datetime'>"+record[2]+"</td>",
+                        "<td class='td_lat'>"+record[3]+"</td>",
+                        "<td class='td_long'>"+record[4]+"</td>",
+                        "<td class='td_depth'>"+record[5]+"</td>",
+                        "<td class='td_author'>"+record[6]+"</td>",
+                        "<td class='td_mag_type'>"+record[7]+"</td>",
+                        "<td class='td_magnitude'>"+record[8]+"</td>",
+                        "<td class='td_zone'>"+record[9]+"</td>",
                     "</tr>"
         );
     }
