@@ -135,6 +135,7 @@ app.get("/home", (req, res) => {
 });
 
 app.get("/segnalazioni", (req, res) => {
+    const resultsPerPage = 28;
     let html = fs.readFileSync("src/pages/segnalazioni/segnalazioni.html");
     let page = req.query.page;
     let data = currentEarthquakes.slice();
@@ -142,8 +143,8 @@ app.get("/segnalazioni", (req, res) => {
     
     if(page == null)
         page = 1;
-    let startIndex = (page - 1) * 40;
-    let endIndex = startIndex + 40;
+    let startIndex = (page - 1) * resultsPerPage;
+    let endIndex = startIndex + resultsPerPage;
     data = data.slice(startIndex,endIndex);
 
     const $ = cheerio.load(html);
