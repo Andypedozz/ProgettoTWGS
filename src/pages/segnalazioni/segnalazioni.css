@@ -9,6 +9,10 @@ a {
     color: black;
 }
 
+#tabella > thead {
+    background: lightblue;
+}
+
 #tabella > tbody > tr > td > a {
     font-weight: bold;
 }
@@ -30,6 +34,10 @@ a {
     padding-right: 1%;
     margin-left: 1%;
     margin-right: 1%;
+}
+
+#next-page, #previous-page {
+    background-color: lightblue;
 }
 
 

@@ -89,7 +89,6 @@ app.get("/earthquakes/query", (req, res) => {
 
 // POST: crea una nuova segnalazione
 app.post("/earthquakes/add", (req, res) => {
-    console.log(req.body);
     let data = req.body;
     let earthquake = [];
 
@@ -108,18 +107,16 @@ app.post("/earthquakes/add", (req, res) => {
     earthquake.push(data.magnitude);
     earthquake.push(data.zone);
 
-    console.log(earthquake);
-    res.send(earthquake.json);
+    // console.log(earthquake);
     currentEarthquakes.push(earthquake);
 
-    console.log("Terremoto aggiunto!");
-    console.log("Terremoti attualmente in lista: "+ currentEarthquakes.length);
-
-    fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
+    // fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
+    res.send("Message: Successfully added record!");
 });
 
 // PUT: aggiorna una segnalazione --> aggiorna il magnitudo data la posizione della segnalazione
 app.put("/earthquakes/modify", (req, res) => {
+
 });
 
 /********************************/

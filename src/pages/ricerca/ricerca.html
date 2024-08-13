@@ -46,11 +46,9 @@
                     if(selectedValue === "ID" || selectedValue === "EventID" || selectedValue === "Latitudine" || selectedValue === "Longitudine" || selectedValue === "Profondità" || selectedValue === "Magnitudo") {
                         inputField.type = "number";
                         inputField.step = "any";
-                        inputField.placeholder = "Numero";
                     }
                     else if(selectedValue === "Autore" || selectedValue === "MagType" || selectedValue === "Zona"){
                         inputField.type = "text";
-                        inputField.placeholder = "Testo";
                     }
                     else {
 
@@ -98,6 +96,7 @@
         <tbody>
         </tbody>
     </table>
+    <!-- HTTP GET REQUEST TABLE -->
     <script id="load-table">
         function loadTable() {
             clearData();

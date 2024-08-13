@@ -21,40 +21,81 @@
         </nav>
     </header>
     <hr>
-    <form action="/earthquake" method="post">
+    <div id="response-container">
+
+    </div>
+    <div class="form-container">
         <p>
             <label>Data e ora</label>
-            <input type="datetime-local" name="datetime" required="true"/><br>
+            <input type="datetime-local" id="datetime" required="true"/><br>
         </p>
         <p>
             <label>Latitudine</label>
-            <input type="number" name="latitude" required="true"/><br>
+            <input type="number" id="latitude" required="true"/><br>
         </p>
         <p>
             <label>Longitudine</label>
-            <input type="number" name="longitude" required="true"/><br>
+            <input type="number" id="longitude" required="true"/><br>
         </p>
         <p>
             <label>Profondità</label>
-            <input type="number" name="depth" required="true"/><br>
+            <input type="number" id="depth" required="true"/><br>
         </p>
         <p>
             <label>Autore</label>
-            <input type="text" name="author"/><br>
+            <input type="text" id="author" name="author"/><br>
         </p>
         <p>
             <label>MagType</label>
-            <input type="text" name="magType" required="true"/><br>
+            <input type="text" id="magType" required="true"/><br>
         </p>
         <p>
             <label>Magnitudo</label>
-            <input type="number" name="magnitude" required="true"/><br>
+            <input type="number" id="magnitude" required="true"/><br>
         </p>
         <p>
             <label>Località</label>
-            <input type="text" name="zone" required="true"/><br>
+            <input type="text" id="zone" required="true"/><br>
         </p>
-        <input id="confirm" type="submit" value="Conferma"/>
-    </form>
+        <button id="confirm" onclick="addRecord()">Conferma</button>
+        <script>
+            function addRecord() {
+                const url = "/earthquakes/add";
+                // document.writeln("Ciaoo");
+
+                const datetimeValue = document.getElementById("datetime").innerHTML;
+                const latitudeValue = document.getElementById("latitude").innerHTML;
+                const longitudeValue = document.getElementById("longitude").innerHTML;
+                const depthValue = document.getElementById("depth").innerHTML;
+                const authorValue = document.getElementById("author").innerHTML;
+                const magTypeValue = document.getElementById("magType").innerHTML;
+                const magnitudeValue = document.getElementById("magnitude").innerHTML;
+                const zoneValue = document.getElementById("zone").innerHTML;
+
+                fetch(url, {
+                    method: "POST",
+                    body: {
+                        datetime : datetimeValue,
+                        latitude : latitudeValue,
+                        longitude : longitudeValue,
+                        depth : depthValue,
+                        author : authorValue,
+                        magType : magTypeValue,
+                        magnitude : magnitudeValue,
+                        zone : zoneValue
+                    }
+                })
+                .then(() => {
+                    const container = document.getElementById("response-container");
+                    if(container.firstChild)
+                        container.removeChild(container.firstChild);
+                    const h2 = document.createElement("h2");
+                    h2.innerHTML = "Segnalazione inserita con successo!";
+                    container.appendChild(h2);
+                })
+                .catch(error => console.error("Errore: "+error));
+            }
+        </script>
+    </div>
 </body>
 </html>
