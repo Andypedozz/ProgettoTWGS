@@ -17,34 +17,36 @@ app.use(express.static(path.join(__dirname, "/")));
 
 // GET: ottieni la lista di tutti i terremoti
 app.get('/earthquakes', (req, res) => {
-    if(currentEarthquakes.length == 0) {
+    let earthquakes = currentEarthquakes.slice();
+    earthquakes = earthquakes.reverse();
+    if(earthquakes.length == 0) {
         res.type('text/plain').send("Non ci sono terremoti disponibili!");
         return 0;
     }
 
+    // QUERY BY ID
     const id = req.query.id;
     if(id != null) {
-        let data = Object.values(currentEarthquakes);
+        let data = Object.values(earthquakes);
         res.json(data[Number.parseInt(id)]);
-        console.log("Index");
         return 0;
     }
 
+    // QUERY BY INDEXES
     const startIndex = req.query.startIndex;
     const endIndex = req.query.endIndex;
 
     if(startIndex != null && endIndex != null) {
-        let data = Object.values(currentEarthquakes);
+        let data = Object.values(earthquakes);
         data = data.slice(startIndex,endIndex);
-        console.log("Range");
         res.json(data);
         return 0;
     }
 
-    console.log("Normal");
-    res.json(currentEarthquakes);
+    res.json(earthquakes);
 });
 
+// MIGHT IMPROVE
 app.get("/earthquakes/query", (req, res) => {
     const key = req.query.key;
     const value = req.query.value;
@@ -87,6 +89,7 @@ app.get("/earthquakes/query", (req, res) => {
     res.json(result);
 });
 
+// FIXME
 // POST: crea una nuova segnalazione
 app.post("/earthquakes/add", (req, res) => {
     let data = req.body;
@@ -104,9 +107,9 @@ app.post("/earthquakes/add", (req, res) => {
         earthquake.push(field);
     }
 
-    currentEarthquakes.push(earthquake);
+    // currentEarthquakes.push(earthquake);
 
-    fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
+    // fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
     res.send("Message: Successfully added record!");
 });
 
@@ -128,57 +131,7 @@ app.get("/home", (req, res) => {
 });
 
 app.get("/segnalazioni", (req, res) => {
-    const resultsPerPage = 28;
-    let html = fs.readFileSync("src/pages/segnalazioni/segnalazioni.html");
-    let page = req.query.page;
-    let data = currentEarthquakes.slice();
-    data = data.reverse();
-    
-    if(page == null)
-        page = 1;
-    let startIndex = (page - 1) * resultsPerPage;
-    let endIndex = startIndex + resultsPerPage;
-    data = data.slice(startIndex,endIndex);
-
-    const $ = cheerio.load(html);
-
-    // carico la tabella
-    const table = $('tbody');
-    for(var record of data) {
-        table.append("<tr>",
-                        "<td class='td_id'><a href='/segnalazione?id="+record[0]+"'>"+record[0]+"</a></td>",
-                        "<td class='td_event_id'>"+record[1]+"</td>",
-                        "<td class='td_datetime'>"+record[2]+"</td>",
-                        "<td class='td_lat'>"+record[3]+"</td>",
-                        "<td class='td_long'>"+record[4]+"</td>",
-                        "<td class='td_depth'>"+record[5]+"</td>",
-                        "<td class='td_author'>"+record[6]+"</td>",
-                        "<td class='td_mag_type'>"+record[7]+"</td>",
-                        "<td class='td_magnitude'>"+record[8]+"</td>",
-                        "<td class='td_zone'>"+record[9]+"</td>",
-                    "</tr>"
-        );
-    }
-
-    // Setto l'indice di pagina
-    const pageIndex = $('#page-index');
-    pageIndex.text(page);
-
-    // Setto i tasti avanti e indietro pagina
-    const nextPageBtn = $("#next-page");
-    const nextPage = parseInt(page) + 1;
-    const previousPage = parseInt(page) - 1;
-    const previousPageBtn = $('#previous-page');
-    if(page != 1) {
-        previousPageBtn.attr('href', '/segnalazioni?page='+previousPage);
-    }
-
-    if(data[data.length - 1][0] !== currentEarthquakes[currentEarthquakes.length - 1][0]) {
-        nextPageBtn.attr('href', '/segnalazioni?page='+nextPage);
-    }
-    
-    html = $.html();
-    res.send(html);
+    res.sendFile(path.join(__dirname, "src/pages/segnalazioni/segnalazioni.html"));
 });
 
 app.get("/ricerca", (req, res) => {
