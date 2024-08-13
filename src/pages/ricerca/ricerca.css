@@ -33,13 +33,6 @@ select, input {
     text-align: center;
 }
 
-#results {
-    text-align: center;
-    margin: auto;
-    border: 1px solid;
-    margin-top: 1%;
-}
-
 #results > thead {
     background: lightblue;
 }
@@ -47,14 +40,6 @@ select, input {
 a {
     text-decoration: none;
     color: black;
-}
-
-#results > tbody > tr > td > a {
-    font-weight: bold;
-}
-
-#results > tbody > tr > td {
-    border: 1px solid;
 }
 
 

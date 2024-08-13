@@ -90,6 +90,7 @@ app.get("/earthquakes/query", (req, res) => {
 // POST: crea una nuova segnalazione
 app.post("/earthquakes/add", (req, res) => {
     let data = req.body;
+    console.log(data);
     let earthquake = [];
 
     let lastRecord = currentEarthquakes[currentEarthquakes.length - 1];
@@ -98,19 +99,14 @@ app.post("/earthquakes/add", (req, res) => {
 
     earthquake.push(lastId + 1);
     earthquake.push(lastEventId + 1);
-    earthquake.push(data.datetime);
-    earthquake.push(data.latitude);
-    earthquake.push(data.longitude);
-    earthquake.push(data.depth);
-    earthquake.push(data.author);
-    earthquake.push(data.magType);
-    earthquake.push(data.magnitude);
-    earthquake.push(data.zone);
 
-    // console.log(earthquake);
+    for(var field in data) {
+        earthquake.push(field);
+    }
+
     currentEarthquakes.push(earthquake);
 
-    // fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
+    fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
     res.send("Message: Successfully added record!");
 });
 

@@ -1,24 +1,6 @@
-#tabella {
-    text-align: center;
-    margin: auto;
-    border: 1px solid;
-}
-
 a {
     text-decoration: none;
     color: black;
-}
-
-#tabella > thead {
-    background: lightblue;
-}
-
-#tabella > tbody > tr > td > a {
-    font-weight: bold;
-}
-
-#tabella > tbody > tr > td {
-    border: 1px solid;
 }
 
 .page-buttons {

@@ -38,6 +38,25 @@
     color: black;
 }
 
+table {
+    text-align: center;
+    margin: auto;
+    border: 1px solid;
+    margin-top: 1%;
+}
+
+table > thead {
+    background: lightblue;
+}
+
+table > tbody > tr > td > a {
+    font-weight: bold;
+}
+
+table > tbody > tr > td {
+    border: 1px solid;
+}
+
 footer {
     text-align: center;
 }

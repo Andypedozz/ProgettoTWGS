@@ -20,9 +20,7 @@
             </ul>
         </nav>
     </header>
-    <hr>
     <div id="response-container">
-
     </div>
     <div class="form-container">
         <p>
@@ -61,29 +59,35 @@
         <script>
             function addRecord() {
                 const url = "/earthquakes/add";
-                // document.writeln("Ciaoo");
 
-                const datetimeValue = document.getElementById("datetime").innerHTML;
-                const latitudeValue = document.getElementById("latitude").innerHTML;
-                const longitudeValue = document.getElementById("longitude").innerHTML;
-                const depthValue = document.getElementById("depth").innerHTML;
-                const authorValue = document.getElementById("author").innerHTML;
-                const magTypeValue = document.getElementById("magType").innerHTML;
-                const magnitudeValue = document.getElementById("magnitude").innerHTML;
-                const zoneValue = document.getElementById("zone").innerHTML;
+                const fDatetime = document.getElementById("datetime");
+                const fLatitude = document.getElementById("latitude");
+                const fLongitude = document.getElementById("longitude");
+                const fDepth = document.getElementById("depth");
+                const fAuthor = document.getElementById("author");
+                const fMagType = document.getElementById("magType");
+                const fMagnitude = document.getElementById("magnitude");
+                const fZone = document.getElementById("zone");
+
+                const data = {
+                    datetime : fDatetime.value,
+                    latitude : fLatitude.value,
+                    longitude : fLongitude.value,
+                    depth : fDepth.value,
+                    author : fAuthor.value,
+                    magType : fMagType.value,
+                    magnitude : fMagnitude.value,
+                    zone : fZone.value
+                }
+
+                console.log(JSON.stringify(data));
 
                 fetch(url, {
                     method: "POST",
-                    body: {
-                        datetime : datetimeValue,
-                        latitude : latitudeValue,
-                        longitude : longitudeValue,
-                        depth : depthValue,
-                        author : authorValue,
-                        magType : magTypeValue,
-                        magnitude : magnitudeValue,
-                        zone : zoneValue
-                    }
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    body : JSON.stringify(data)
                 })
                 .then(() => {
                     const container = document.getElementById("response-container");
