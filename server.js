@@ -1,7 +1,6 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs");
-const cheerio = require("cheerio");
 const app = express();
 const port = 3000;
 
@@ -107,7 +106,7 @@ app.post("/earthquakes/add", (req, res) => {
         earthquake.push(field);
     }
 
-    // currentEarthquakes.push(earthquake);
+    currentEarthquakes.push(earthquake);
 
     // fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
     res.send("Message: Successfully added record!");

@@ -1,0 +1,3 @@
+- Aggiungere scorrimento pagine alla sezione "Ricerca" usando lo stesso script usato per la tabella segnalazioni
+- Fixare request POST che invia campi vuoti
+- Migliorare CSS

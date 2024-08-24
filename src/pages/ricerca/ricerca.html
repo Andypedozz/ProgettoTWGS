@@ -77,7 +77,7 @@
             </script>
         </p>
     </div>
-    <table id="results">
+    <table id="tabella">
         <thead>
             <tr id="header-row">
                 <th>ID</th>
@@ -96,45 +96,6 @@
         </tbody>
     </table>
     <!-- HTTP GET REQUEST TABLE -->
-    <script id="load-table">
-        function loadTable() {
-            clearData();
-            const table = document.getElementById("results");
-            const tbody = table.getElementsByTagName("tbody")[0];
-
-            const key = document.getElementById("key-select").value;
-            const value = document.getElementById("input-field").value;
-
-            const url = "/earthquakes/query?key="+key+"&value="+value;
-
-            fetch(url, {
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-
-                for(var i = 0; i < data.length; i++) {
-                    let newRow = tbody.insertRow();
-                    newRow.class = "record-row";
-                    for(var j = 0; j < data[i].length; j++) {
-                        let newCell = newRow.insertCell();
-                        newCell.innerHTML = data[i][j];
-                    }
-                }
-            })
-            .catch((error) => console.error("Errore: "+error));
-        }
-
-        function clearData() {
-            const table = document.getElementById("results");
-            const tbody = table.getElementsByTagName("tbody")[0];
-            
-            while(tbody.firstChild) {
-                tbody.removeChild(tbody.firstChild);
-            }
-        }
-    </script>
+    <script src="src/scripts/loadQueryTable.js"></script>
 </body>
 </html>
