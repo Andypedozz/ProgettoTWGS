@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="src/pages/segnalazioni/segnalazioni.css" />
 </head>
 <body>
-    <header>
+    <header id="head">
         <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
         <nav id="navlist">
             <ul>
@@ -39,14 +39,15 @@
         </tbody>
     </table>
     <div class="page-buttons">
-        <button id="previous-page" onclick="previousPage()">Indietro</button>
+        <input type="button" id="previous-page" value="Indietro" onclick="previousPage(false)" />
         <label id="page-index">1</label>
-        <button id="next-page" onclick="nextPage()">Avanti</button>
+        <input type="button" id="next-page" value="Avanti" onclick="nextPage(false)" />
         <!-- TABLE GET REQUEST -->
-        <script src="src/scripts/loadTable.js"></script>
     </div>
     <!-- TABLE SWITCH PAGES -->
-    <script src="src/scripts/nextPage.js"></script>
-    <script src="src/scripts/prevPage.js"></script>
+    <script src="src/scripts/loadTable.js"></script>
+    <script>
+        loadTable(false);
+    </script>
 </body>
 </html>

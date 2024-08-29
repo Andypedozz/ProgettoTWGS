@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="src/pages/ricerca/ricerca.css" />
 </head>
 <body>
-    <header>
+    <header id="head">
         <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
         <nav id="navlist">
             <ul>
@@ -23,7 +23,7 @@
     <h2>Ricerca segnalazioni</h2>
     <div class="form">
         <p>
-            <label>Proprietà</label>
+            <label id="prop-label">Proprietà</label>
             <select id="key-select" name="key" onchange="handleKeyChange()">
                 <option>Seleziona</option>
                 <option>ID</option>
@@ -57,11 +57,11 @@
             </script>
         </p>
         <p>
-            <label>Valore</label>
+            <label id="value-label">Valore</label>
             <input type="text" id="input-field" name="value" required="true" disabled="true">
         </p>
         <p>
-            <button id="confirm" disabled="true" onclick="loadTable()">Cerca</button>
+            <button id="confirm" disabled="true" onclick="loadTable(true)">Cerca</button>
             <script id="input-change-script">
                 
                 const inputField = document.getElementById("input-field");
@@ -96,6 +96,6 @@
         </tbody>
     </table>
     <!-- HTTP GET REQUEST TABLE -->
-    <script src="src/scripts/loadQueryTable.js"></script>
+    <script src="src/scripts/loadTable.js"></script>
 </body>
 </html>

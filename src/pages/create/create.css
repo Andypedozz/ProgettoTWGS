@@ -1,6 +1,7 @@
 .form-container {
     display: table;
     margin: auto;
+    margin-top: 2%;
     text-align: center;
     border: 1px solid;
     border-radius: 30px;

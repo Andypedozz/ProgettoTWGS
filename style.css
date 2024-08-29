@@ -2,6 +2,10 @@
 /*          COMMON          */
 /****************************/
 
+#head {
+    border-bottom: 1px solid;
+}
+
 #title {
     text-align: center;
     border: 1px solid;

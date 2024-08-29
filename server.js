@@ -9,6 +9,7 @@ var currentEarthquakes = JSON.parse(earthquakes);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/")));
+app.use(express.json({ type: '*/*' })); 
 
 /****************************/
 /*         ENDPOINT         */
@@ -85,14 +86,14 @@ app.get("/earthquakes/query", (req, res) => {
             break;
     }
 
+    result = result.reverse();
     res.json(result);
 });
 
 // FIXME
 // POST: crea una nuova segnalazione
 app.post("/earthquakes/add", (req, res) => {
-    let data = req.body;
-    console.log(data);
+    let data = Object.values(req.body);
     let earthquake = [];
 
     let lastRecord = currentEarthquakes[currentEarthquakes.length - 1];
@@ -102,13 +103,13 @@ app.post("/earthquakes/add", (req, res) => {
     earthquake.push(lastId + 1);
     earthquake.push(lastEventId + 1);
 
-    for(var field in data) {
-        earthquake.push(field);
+    for(var i = 0; i < data.length; i++) {
+        earthquake.push(data[i]);
     }
 
     currentEarthquakes.push(earthquake);
 
-    // fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
+    fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
     res.send("Message: Successfully added record!");
 });
 
