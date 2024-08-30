@@ -61,7 +61,7 @@
             <input type="text" id="input-field" name="value" required="true" disabled="true">
         </p>
         <p>
-            <button id="confirm" disabled="true" onclick="loadTable(true)">Cerca</button>
+            <button id="confirm" disabled="true" onclick="loadTable()">Cerca</button>
             <script id="input-change-script">
                 
                 const inputField = document.getElementById("input-field");
@@ -77,25 +77,38 @@
             </script>
         </p>
     </div>
-    <table id="tabella">
-        <thead>
-            <tr id="header-row">
-                <th>ID</th>
-                <th>EventID</th>
-                <th>Data e ora (Italia)</th>
-                <th>Latitudine</th>
-                <th>Longitudine</th>
-                <th>Profondità</th>
-                <th>Autore</th>
-                <th>MagType</th>
-                <th>Magnitudo</th>
-                <th>Zona</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+    <div id="table-container">
+
+    </div>
     <!-- HTTP GET REQUEST TABLE -->
-    <script src="src/scripts/loadTable.js"></script>
+    <script src="src/components/DataTable.js"></script>
+    <script>
+        function loadTable() {
+            if(document.getElementById("table-container").childNodes.length > 0)
+                clear();
+
+            let columns = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondità","Autore","MagType","Magnitudo","Zona"];
+            let key = document.getElementById("key-select").value;
+            let value = document.getElementById("input-field").value;
+            let url = "/earthquakes/query?key="+key+"&value="+value;
+            fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type" : "application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                DataTable("table-container",columns,data)
+            })
+        }
+
+        function clear() {
+            const container = document.getElementById("table-container");
+            while(container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+        }
+    </script>
 </body>
 </html>

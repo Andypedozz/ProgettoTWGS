@@ -42,12 +42,12 @@ a {
     color: black;
 }
 
-.page-buttons {
+#page-buttons {
     margin-top: 1% ;
     text-align: center;
 }
 
-.page-buttons > button {
+#page-buttons > button {
     margin-top: 1%;
     padding-left: 1%;
     padding-right: 1%;

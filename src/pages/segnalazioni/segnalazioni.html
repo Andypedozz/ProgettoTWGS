@@ -20,34 +20,24 @@
             </ul>
         </nav>
     </header>
-    <table id="tabella">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>EventID</th>
-                <th>Data e ora (Italia)</th>
-                <th>Latitudine</th>
-                <th>Longitudine</th>
-                <th>Profondità</th>
-                <th>Autore</th>
-                <th>MagType</th>
-                <th>Magnitudo</th>
-                <th>Zona</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <div class="page-buttons">
-        <input type="button" id="previous-page" value="Indietro" onclick="previousPage(false)" />
-        <label id="page-index">1</label>
-        <input type="button" id="next-page" value="Avanti" onclick="nextPage(false)" />
-        <!-- TABLE GET REQUEST -->
+    <div id="table-container">
+
     </div>
     <!-- TABLE SWITCH PAGES -->
-    <script src="src/scripts/loadTable.js"></script>
+    <script src="src/components/DataTable.js"></script>
     <script>
-        loadTable(false);
+        let columns = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondità","Autore","MagType","Magnitudo","Zona"];
+        let url = "/earthquakes";
+        fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type" : "application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            DataTable("table-container",columns,data)
+        })
     </script>
 </body>
 </html>
