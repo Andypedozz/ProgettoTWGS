@@ -20,24 +20,15 @@
             </ul>
         </nav>
     </header>
+    <h2>Segnalazioni</h2>
     <div id="table-container">
 
     </div>
     <!-- TABLE SWITCH PAGES -->
-    <script src="src/components/DataTable.js"></script>
+    <script src="src/components/ReportsTable.js"></script>
     <script>
         let columns = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondità","Autore","MagType","Magnitudo","Zona"];
-        let url = "/earthquakes";
-        fetch(url, {
-            method: "GET",
-            headers: {
-                "Content-Type" : "application/json"
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            DataTable("table-container",columns,data)
-        })
+        ReportsTable("table-container",columns);
     </script>
 </body>
 </html>

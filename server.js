@@ -28,6 +28,7 @@ app.get('/earthquakes', (req, res) => {
     const id = req.query.id;
     if(id != null) {
         let data = Object.values(earthquakes);
+        data.unshift(data.length);
         res.json(data[Number.parseInt(id)]);
         return 0;
     }
@@ -38,11 +39,14 @@ app.get('/earthquakes', (req, res) => {
 
     if(startIndex != null && endIndex != null) {
         let data = Object.values(earthquakes);
+        let length = data.length;
         data = data.slice(startIndex,endIndex);
+        data.unshift(length);
         res.json(data);
         return 0;
     }
 
+    earthquakes.unshift(currentEarthquakes.length);
     res.json(earthquakes);
 });
 

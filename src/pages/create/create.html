@@ -20,46 +20,49 @@
             </ul>
         </nav>
     </header>
+    <h2 id="title2">Aggiungi una segnalazione</h2>
     <div id="response-container">
     </div>
     <div class="form-container">
-        <p>
-            <label>Data e ora</label>
-            <input type="datetime-local" id="datetime" required="true"/><br>
-        </p>
-        <p>
-            <label>Latitudine</label>
-            <input type="number" id="latitude" required="true"/><br>
-        </p>
-        <p>
-            <label>Longitudine</label>
-            <input type="number" id="longitude" required="true"/><br>
-        </p>
-        <p>
-            <label>Profondità</label>
-            <input type="number" id="depth" required="true"/><br>
-        </p>
-        <p>
-            <label>Autore</label>
-            <input type="text" id="author" name="author"/><br>
-        </p>
-        <p>
-            <label>MagType</label>
-            <input type="text" id="magType" required="true"/><br>
-        </p>
-        <p>
-            <label>Magnitudo</label>
-            <input type="number" id="magnitude" required="true"/><br>
-        </p>
-        <p>
-            <label>Località</label>
-            <input type="text" id="zone" required="true"/><br>
-        </p>
-        <button id="confirm" onclick="addRecord()">Conferma</button>
+        <form action="javascript:addRecord()">
+            <p>
+                <label>Data e ora</label>
+                <input type="datetime-local" id="datetime" required="true"/><br>
+            </p>
+            <p>
+                <label>Latitudine</label>
+                <input type="number" id="latitude" required="true"/><br>
+            </p>
+            <p>
+                <label>Longitudine</label>
+                <input type="number" id="longitude" required="true"/><br>
+            </p>
+            <p>
+                <label>Profondità</label>
+                <input type="number" id="depth" required="true"/><br>
+            </p>
+            <p>
+                <label>Autore</label>
+                <input type="text" id="author" name="author"/><br>
+            </p>
+            <p>
+                <label>MagType</label>
+                <input type="text" id="magType" required="true"/><br>
+            </p>
+            <p>
+                <label>Magnitudo</label>
+                <input type="number" step="0.1" id="magnitude" required="true"/><br>
+            </p>
+            <p>
+                <label>Località</label>
+                <input type="text" id="zone" required="true"/><br>
+            </p>
+            <input type="submit" id="confirm" value="Conferma" />
+        </form>
         <script>
             function addRecord() {
                 const url = "/earthquakes/add";
-
+    
                 const fDatetime = document.getElementById("datetime");
                 const fLatitude = document.getElementById("latitude");
                 const fLongitude = document.getElementById("longitude");
@@ -68,7 +71,7 @@
                 const fMagType = document.getElementById("magType");
                 const fMagnitude = document.getElementById("magnitude");
                 const fZone = document.getElementById("zone");
-
+    
                 const data = {
                     datetime : fDatetime.value,
                     latitude : fLatitude.value,
@@ -79,9 +82,9 @@
                     magnitude : fMagnitude.value,
                     zone : fZone.value
                 }
-
+    
                 console.log(JSON.stringify(data));
-
+    
                 fetch(url, {
                     method: "POST",
                     headers: {
@@ -94,6 +97,7 @@
                     if(container.firstChild)
                         container.removeChild(container.firstChild);
                     const h2 = document.createElement("h2");
+                    h2.id = "success-message";
                     h2.innerHTML = "Segnalazione inserita con successo!";
                     container.appendChild(h2);
                 })

@@ -1,3 +1,2 @@
-- Aggiungere scorrimento pagine alla sezione "Ricerca" usando lo stesso script usato per la tabella segnalazioni
-- Fixare request POST che invia campi vuoti
 - Migliorare CSS
+- Aggiungere possibilità di modificare le segnalazioni esistenti o eliminarne

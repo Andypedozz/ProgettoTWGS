@@ -2,43 +2,49 @@
 /*          COMMON          */
 /****************************/
 
+body {
+    margin: 0;
+}
+
 #head {
-    border-bottom: 1px solid;
+    background: black;
+    border-bottom: 1px solid white;
+    margin: 0;
 }
 
 #title {
     text-align: center;
-    border: 1px solid;
-    border-radius: 20px;
-    background: radial-gradient(white, lightblue);
+    color: white;
+    margin: 0;
+    padding: 1%;
 }
 
 #navlist {
+    background: white;
     text-align: center;
+    padding: 1%;
+    margin-bottom: 2%;
 }
 
 #navlist > ul > li {
     display: inline-block;
+    padding: 1%;
     border: 1px solid;
-    border-radius: 5px;
-    padding-left: 1%;
-    padding-right: 1%;
-    margin-left: 1%;
-    margin-right: 1%;
-    background: radial-gradient(white, lightblue);
 }
 
 @media (max-width: 600px) {
+    
     #navlist > ul > li {
+        text-align: center;
         padding-left: 1%;
         padding-right: 1%;
-        margin-left: 0%;
-        margin-right: 0%;
+        display: block;
     }
 }
 
 #navlist > ul > li > a {
     text-decoration: none;
+    font-weight: bold;
     color: black;
 }
 
@@ -50,11 +56,15 @@ table {
 }
 
 table > thead {
-    background: lightblue;
+    background: rgb(102, 102, 102);
 }
 
 table > tbody > tr > td > a {
     font-weight: bold;
+}
+
+table > thead > tr > td {
+    color: white;
 }
 
 table > tbody > tr > td {

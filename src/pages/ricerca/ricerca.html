@@ -81,7 +81,7 @@
 
     </div>
     <!-- HTTP GET REQUEST TABLE -->
-    <script src="src/components/DataTable.js"></script>
+    <script src="src/components/DataTableFull.js"></script>
     <script>
         function loadTable() {
             if(document.getElementById("table-container").childNodes.length > 0)
@@ -99,7 +99,7 @@
             })
             .then(response => response.json())
             .then(data => {
-                DataTable("table-container",columns,data)
+                DataTableFull("table-container",columns,data)
             })
         }
 
