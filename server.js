@@ -119,7 +119,21 @@ app.post("/earthquakes/add", (req, res) => {
 
 // PUT: aggiorna una segnalazione --> aggiorna il magnitudo data la posizione della segnalazione
 app.put("/earthquakes/modify", (req, res) => {
+    if(currentEarthquakes.length == 0) {
+        res.type("text/plain").send("Non ci sono segnalazioni!");
+        return 0;
+    }
 
+    let data = req.body;
+    let updatedData = [];
+
+    for(var i = 0; i < data.length; i++) {
+        updatedData.push(data[i]);
+    }
+
+    currentEarthquakes[data[0]] = updatedData;
+    fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
+    res.send("Message: Successfully updated record!");
 });
 
 /********************************/
