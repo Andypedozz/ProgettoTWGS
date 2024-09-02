@@ -29,13 +29,13 @@ function ReportsTable(name, columns) {
     pageButtons.appendChild(pageIndex);
     pageButtons.appendChild(nextPageBtn);
     container.appendChild(pageButtons);
-    updateTable();
     prevPageBtn.addEventListener("click", function (e) {
         previousPage();
     });
     nextPageBtn.addEventListener("click", function (e) {
         nextPage();
     });
+    updateTable(parseInt(pageIndex.innerHTML));
 }
 
 function fillHeader(columns) {
@@ -66,13 +66,15 @@ function fillRows(url) {
 
         if(tbody.hasChildNodes)
             clearRows();
+
         // add rows
-        for(var i = 1; i < data.length; i++) {
+        for(var i = 0; i < data.length; i++) {
+            let record = Object.values(data[i]);
             let newRow = tbody.insertRow();
             newRow.class = "record-row";
-            for(var j = 0; j < data[i].length; j++) {
+            for(var j = 0; j < record.length; j++) {
                 let newCell = newRow.insertCell();
-                newCell.innerHTML = data[i][j];
+                newCell.innerHTML = record[j];
             }
         }
     });
@@ -80,26 +82,27 @@ function fillRows(url) {
 
 function previousPage() {
     let pageIndex = document.getElementById("page-index");
+    let page = parseInt(pageIndex.innerHTML);
 
-    if(parseInt(pageIndex.innerHTML) > 1) {
-        pageIndex.innerHTML = parseInt(pageIndex.innerHTML) - 1;
-        updateTable();
+    if(page > 1) {
+        page = page - 1;
+        updateTable(page);
+        pageIndex.innerHTML = page;
     }
 }
 
 function nextPage() {
     let pageIndex = document.getElementById("page-index");
+    let page = parseInt(pageIndex.innerHTML);
 
     if(parseInt(pageIndex.innerHTML) < pages) {
-        pageIndex.innerHTML = parseInt(pageIndex.innerHTML) + 1;
-        updateTable();
+        page = page + 1;
+        updateTable(page);
+        pageIndex.innerHTML = page;
     }
 }
 
-function updateTable() {
-    const pageIndex = document.getElementById("page-index");
-    let page = pageIndex.innerHTML;
-    
+function updateTable(page) {
     let startIndex = (page - 1) * resultsPerPage;
     let endIndex = startIndex + resultsPerPage;
     const url = "/earthquakes?startIndex="+startIndex+"&endIndex="+endIndex;

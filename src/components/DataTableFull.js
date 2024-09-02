@@ -31,13 +31,13 @@ function DataTableFull(name, columns, data) {
     pageButtons.appendChild(pageIndex);
     pageButtons.appendChild(nextPageBtn);
     container.appendChild(pageButtons);
-    updateTable();
     prevPageBtn.addEventListener("click", function (e) {
         previousPage();
     });
     nextPageBtn.addEventListener("click", function (e) {
         nextPage();
     });
+    updateTable(parseInt(pageIndex.innerHTML));
 }
 
 function fillHeader(columns) {
@@ -58,39 +58,39 @@ function fillTable(data) {
 
     // add rows
     for(var i = 0; i < data.length; i++) {
+        let record = Object.values(data[i]);
         let newRow = tbody.insertRow();
         newRow.class = "record-row";
-        for(var j = 0; j < data[i].length; j++) {
+        for(var j = 0; j < record.length; j++) {
             let newCell = newRow.insertCell();
-            newCell.innerHTML = data[i][j];
+            newCell.innerHTML = record[j];
         }
     }
 }
 
 function previousPage() {
     const pageIndex = document.getElementById("page-index");
-    let page = pageIndex.innerHTML;
-    if(parseInt(page) > 1) {
-        pageIndex.innerHTML = parseInt(page) - 1;
-        updateTable();
+    let page = parseInt(pageIndex.innerHTML);
+
+    if(page > 1) {
+        page = page - 1;
+        updateTable(page);
+        pageIndex.innerHTML = page;
     }
-    console.log("prev page");
 }
 
 function nextPage() {
     const pageIndex = document.getElementById("page-index");
-    let page = pageIndex.innerHTML;
-    if(parseInt(page) < pages) {
-        pageIndex.innerHTML = parseInt(page) + 1;
-        updateTable()
+    let page = parseInt(pageIndex.innerHTML);
+
+    if(page < pages) {
+        page = page + 1;
+        updateTable(page);
+        pageIndex.innerHTML = page;
     }
-    console.log("next page");
 }
 
-function updateTable() {
-    const pageIndex = document.getElementById("page-index");
-    let page = pageIndex.innerHTML;
-    
+function updateTable(page) {
     let startIndex = (page - 1) * resultsPerPage;
     let endIndex = startIndex + resultsPerPage;
     let data = currentData.slice(startIndex,endIndex);

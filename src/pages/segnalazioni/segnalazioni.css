@@ -10,6 +10,7 @@ a {
 #page-buttons {
     margin-top: 1% ;
     text-align: center;
+    padding-bottom: 1%;
 }
 
 #page-buttons > button {

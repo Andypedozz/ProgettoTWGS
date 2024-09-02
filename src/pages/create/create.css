@@ -7,6 +7,11 @@
     border-radius: 30px;
     padding: 7%;
     background: radial-gradient(white, rgb(190, 190, 190));
+    margin-bottom: 3%;
+}
+
+#prop-label, #value-label {
+    margin: 3%;
 }
 
 .response-container {

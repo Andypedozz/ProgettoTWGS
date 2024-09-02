@@ -21,7 +21,7 @@
         </nav>
     </header>
     <h2>Ricerca segnalazioni</h2>
-    <div class="form">
+    <form action="javascript:loadTable()">
         <p>
             <label id="prop-label">Proprietà</label>
             <select id="key-select" name="key" onchange="handleKeyChange()">
@@ -61,7 +61,7 @@
             <input type="text" id="input-field" name="value" required="true" disabled="true">
         </p>
         <p>
-            <button id="confirm" disabled="true" onclick="loadTable()">Cerca</button>
+            <input type="submit" id="confirm" disabled="true" value="Cerca" />
             <script id="input-change-script">
                 
                 const inputField = document.getElementById("input-field");
@@ -76,7 +76,7 @@
                 });
             </script>
         </p>
-    </div>
+    </form>
     <div id="table-container">
 
     </div>

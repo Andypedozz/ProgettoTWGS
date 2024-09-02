@@ -12,6 +12,7 @@ function createJson() {
         earthquakes.push(row);
     })
     .on("end", function () {
+        earthquakes.reverse();
         console.log("Parsing effettuato con successo");
         fs.writeFileSync("earthquakes.json", JSON.stringify(earthquakes));
         console.log("File .json creato con successo!");
@@ -20,5 +21,6 @@ function createJson() {
         console.log("Errore: "+error);
     });
 }
+
 
 createJson();

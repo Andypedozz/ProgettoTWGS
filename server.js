@@ -6,6 +6,8 @@ const port = 3000;
 
 const earthquakes = fs.readFileSync("src/db/earthquakes.json");
 var currentEarthquakes = JSON.parse(earthquakes);
+currentEarthquakes = Object.values(currentEarthquakes);
+currentEarthquakes.unshift(currentEarthquakes.length);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/")));
@@ -17,9 +19,7 @@ app.use(express.json({ type: '*/*' }));
 
 // GET: ottieni la lista di tutti i terremoti
 app.get('/earthquakes', (req, res) => {
-    let earthquakes = currentEarthquakes.slice();
-    earthquakes = earthquakes.reverse();
-    if(earthquakes.length == 0) {
+    if(currentEarthquakes.length == 0) {
         res.type('text/plain').send("Non ci sono terremoti disponibili!");
         return 0;
     }
@@ -27,9 +27,7 @@ app.get('/earthquakes', (req, res) => {
     // QUERY BY ID
     const id = req.query.id;
     if(id != null) {
-        let data = Object.values(earthquakes);
-        data.unshift(data.length);
-        res.json(data[Number.parseInt(id)]);
+        res.json(currentEarthquakes[Number.parseInt(id)]);
         return 0;
     }
 
@@ -38,15 +36,11 @@ app.get('/earthquakes', (req, res) => {
     const endIndex = req.query.endIndex;
 
     if(startIndex != null && endIndex != null) {
-        let data = Object.values(earthquakes);
-        let length = data.length;
-        data = data.slice(startIndex,endIndex);
-        data.unshift(length);
+        let data = currentEarthquakes.slice(startIndex,endIndex);
         res.json(data);
         return 0;
     }
 
-    earthquakes.unshift(currentEarthquakes.length);
     res.json(earthquakes);
 });
 
@@ -90,7 +84,6 @@ app.get("/earthquakes/query", (req, res) => {
             break;
     }
 
-    result = result.reverse();
     res.json(result);
 });
 
