@@ -7,103 +7,110 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" type="text/css" href="src/pages/create/create.css" />
 </head>
+<header id="head">
+    <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
+    <nav id="navlist">
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/segnalazioni">Segnalazioni</a></li>
+            <li><a href="/ricerca">Ricerca</a></li>
+            <li><a href="/create">Aggiungi una segnalazione</a></li>
+            <li><a href="/stats">Statistiche</a></li>
+        </ul>
+    </nav>
+</header>
 <body>
-    <header id="head">
-        <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
-        <nav id="navlist">
-            <ul>
-                <li><a href="/home">Home</a></li>
-                <li><a href="/segnalazioni">Segnalazioni</a></li>
-                <li><a href="/ricerca">Ricerca</a></li>
-                <li><a href="/create">Aggiungi una segnalazione</a></li>
-                <li><a href="/stats">Statistiche</a></li>
-            </ul>
-        </nav>
-    </header>
-    <h2 id="title2">Aggiungi una segnalazione</h2>
-    <div id="response-container">
-    </div>
-    <div class="form-container">
-        <form action="javascript:addRecord()">
-            <p>
-                <label>Data e ora</label>
-                <input type="datetime-local" id="datetime" required="true"/><br>
-            </p>
-            <p>
-                <label>Latitudine</label>
-                <input type="number" id="latitude" required="true"/><br>
-            </p>
-            <p>
-                <label>Longitudine</label>
-                <input type="number" id="longitude" required="true"/><br>
-            </p>
-            <p>
-                <label>Profondità</label>
-                <input type="number" id="depth" required="true"/><br>
-            </p>
-            <p>
-                <label>Autore</label>
-                <input type="text" id="author" name="author"/><br>
-            </p>
-            <p>
-                <label>MagType</label>
-                <input type="text" id="magType" required="true"/><br>
-            </p>
-            <p>
-                <label>Magnitudo</label>
-                <input type="number" step="0.1" id="magnitude" required="true"/><br>
-            </p>
-            <p>
-                <label>Località</label>
-                <input type="text" id="zone" required="true"/><br>
-            </p>
-            <input type="submit" id="confirm" value="Conferma" />
-        </form>
-        <script>
-            function addRecord() {
-                const url = "/earthquakes/add";
-    
-                const fDatetime = document.getElementById("datetime");
-                const fLatitude = document.getElementById("latitude");
-                const fLongitude = document.getElementById("longitude");
-                const fDepth = document.getElementById("depth");
-                const fAuthor = document.getElementById("author");
-                const fMagType = document.getElementById("magType");
-                const fMagnitude = document.getElementById("magnitude");
-                const fZone = document.getElementById("zone");
-    
-                const data = {
-                    datetime : fDatetime.value,
-                    latitude : fLatitude.value,
-                    longitude : fLongitude.value,
-                    depth : fDepth.value,
-                    author : fAuthor.value,
-                    magType : fMagType.value,
-                    magnitude : fMagnitude.value,
-                    zone : fZone.value
+    <div id="content">
+        <h2 id="title2">Aggiungi una segnalazione</h2>
+        <div id="response-container">
+        </div>
+        <div class="form-container">
+            <form action="javascript:addRecord()">
+                <p>
+                    <label>Data e ora</label>
+                    <input type="datetime-local" id="datetime" required="true"/><br>
+                </p>
+                <p>
+                    <label>Latitudine</label>
+                    <input type="number" id="latitude" required="true"/><br>
+                </p>
+                <p>
+                    <label>Longitudine</label>
+                    <input type="number" id="longitude" required="true"/><br>
+                </p>
+                <p>
+                    <label>Profondità</label>
+                    <input type="number" id="depth" required="true"/><br>
+                </p>
+                <p>
+                    <label>Autore</label>
+                    <input type="text" id="author" name="author"/><br>
+                </p>
+                <p>
+                    <label>MagType</label>
+                    <input type="text" id="magType" required="true"/><br>
+                </p>
+                <p>
+                    <label>Magnitudo</label>
+                    <input type="number" step="0.1" id="magnitude" required="true"/><br>
+                </p>
+                <p>
+                    <label>Località</label>
+                    <input type="text" id="zone" required="true"/><br>
+                </p>
+                <input type="submit" id="confirm" value="Conferma" />
+            </form>
+            <script>
+                function addRecord() {
+                    const url = "/earthquakes/add";
+        
+                    const fDatetime = document.getElementById("datetime");
+                    const fLatitude = document.getElementById("latitude");
+                    const fLongitude = document.getElementById("longitude");
+                    const fDepth = document.getElementById("depth");
+                    const fAuthor = document.getElementById("author");
+                    const fMagType = document.getElementById("magType");
+                    const fMagnitude = document.getElementById("magnitude");
+                    const fZone = document.getElementById("zone");
+        
+                    const data = {
+                        datetime : fDatetime.value,
+                        latitude : fLatitude.value,
+                        longitude : fLongitude.value,
+                        depth : fDepth.value,
+                        author : fAuthor.value,
+                        magType : fMagType.value,
+                        magnitude : fMagnitude.value,
+                        zone : fZone.value
+                    }
+        
+                    console.log(JSON.stringify(data));
+        
+                    fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type" : "application/json"
+                        },
+                        body : JSON.stringify(data)
+                    })
+                    .then(() => {
+                        const container = document.getElementById("response-container");
+                        if(container.firstChild)
+                            container.removeChild(container.firstChild);
+                        const h2 = document.createElement("h2");
+                        h2.id = "success-message";
+                        h2.innerHTML = "Segnalazione inserita con successo!";
+                        container.appendChild(h2);
+                    })
+                    .catch(error => console.error("Errore: "+error));
                 }
-    
-                console.log(JSON.stringify(data));
-    
-                fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type" : "application/json"
-                    },
-                    body : JSON.stringify(data)
-                })
-                .then(() => {
-                    const container = document.getElementById("response-container");
-                    if(container.firstChild)
-                        container.removeChild(container.firstChild);
-                    const h2 = document.createElement("h2");
-                    h2.id = "success-message";
-                    h2.innerHTML = "Segnalazione inserita con successo!";
-                    container.appendChild(h2);
-                })
-                .catch(error => console.error("Errore: "+error));
-            }
-        </script>
+            </script>
+        </div>
     </div>
+    <footer>
+        <p>
+            I dati utilizzati in questo sito sono presi da <a href="https://www.kaggle.com/code/booroom/italian-earthquakes-eda">www.kaggle.com</a>
+        </p>
+    </footer>
 </body>
 </html>

@@ -4,11 +4,16 @@
 
 body {
     margin: 0;
+    background: black;
+}
+
+#content {
+    background: white;
+    padding: 1%;
 }
 
 #head {
     background: black;
-    border-bottom: 1px solid white;
     margin: 0;
 }
 
@@ -71,6 +76,12 @@ table > tbody > tr > td {
     border: 1px solid;
 }
 
-footer {
+footer > p {
     text-align: center;
+    color: white;
+}
+
+footer > p > a {
+    color: rgb(64, 201, 247);
+    text-decoration: none;
 }

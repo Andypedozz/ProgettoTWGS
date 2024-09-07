@@ -29,7 +29,7 @@
     background: lightgreen;
 }
 
-p {
+form > p {
     display: table-row;
 }
 

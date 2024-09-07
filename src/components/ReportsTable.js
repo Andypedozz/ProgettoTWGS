@@ -1,8 +1,9 @@
 const resultsPerPage = 28;
-var pages;
+var fixedColumns = columns;
 
 function ReportsTable(name, columns) {
 
+    fixedColumns = columns;
     const container = document.getElementById("table-container");
     const table = document.createElement("table");
     table.id = "table";
@@ -49,64 +50,72 @@ function fillHeader(columns) {
     }
 }
 
-function fillRows(url) {
+function fillRows(data) {
     
-    fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type" : "application/json"
+    const tbody = document.getElementById("tbody");
+
+    if(tbody.hasChildNodes)
+        clearRows();
+
+    // add rows
+    for(var i = 0; i < data.length; i++) {
+        let record = Object.values(data[i]);
+        let newRow = tbody.insertRow();
+        newRow.class = "record-row";
+        for(var j = 0; j < record.length; j++) {
+            let newCell = newRow.insertCell();
+            newCell.innerHTML = record[j];
         }
-    })
-    .then(response => response.json())
-    .then(data => {
-        const tbody = document.getElementById("tbody");
-
-        if(pages == null)
-            pages = Math.ceil(parseInt(data[0]) / resultsPerPage);
-
-        if(tbody.hasChildNodes)
-            clearRows();
-
-        // add rows
-        for(var i = 0; i < data.length; i++) {
-            let record = Object.values(data[i]);
-            let newRow = tbody.insertRow();
-            newRow.class = "record-row";
-            for(var j = 0; j < record.length; j++) {
-                let newCell = newRow.insertCell();
-                newCell.innerHTML = record[j];
-            }
-        }
-    });
+    }
 }
 
 function previousPage() {
     let pageIndex = document.getElementById("page-index");
     let page = parseInt(pageIndex.innerHTML);
+    page = page - 1;
 
-    if(page > 1) {
-        page = page - 1;
-        updateTable(page);
+    updateTable(page)
+    .then(() => {
         pageIndex.innerHTML = page;
-    }
+    })
+    .catch((error) => {
+        console.log(error);
+    })
 }
 
 function nextPage() {
     let pageIndex = document.getElementById("page-index");
     let page = parseInt(pageIndex.innerHTML);
 
-    if(parseInt(pageIndex.innerHTML) < pages) {
-        page = page + 1;
-        updateTable(page);
+    page = page + 1;
+    updateTable(page)
+    .then(() => {
         pageIndex.innerHTML = page;
-    }
+    })
+    .catch((error) => {
+        console.log(error);
+    })
 }
 
 function updateTable(page) {
     let startIndex = (page - 1) * resultsPerPage;
     let endIndex = startIndex + resultsPerPage;
     const url = "/earthquakes?startIndex="+startIndex+"&endIndex="+endIndex;
-    fillRows(url);
+
+    return fetch(url, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+    .then(response => response.json())
+    .then((data) => {
+        if (Object.values(data).length === 0) {
+            throw new Error("No more data");
+        } else {
+            fillRows(data);
+        }
+    });
 }
 
 function clearRows() {

@@ -6,8 +6,6 @@ const port = 3000;
 
 const earthquakes = fs.readFileSync("src/db/earthquakes.json");
 var currentEarthquakes = JSON.parse(earthquakes);
-currentEarthquakes = Object.values(currentEarthquakes);
-currentEarthquakes.unshift(currentEarthquakes.length);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/")));
@@ -51,38 +49,46 @@ app.get("/earthquakes/query", (req, res) => {
 
     let result = [];
 
-    switch(key) {
-        case "ID":
-            result = currentEarthquakes.filter((record) => parseInt(record[0]) === parseInt(value));
-            break;
-        case "EventID":
-            result = currentEarthquakes.filter((record) => parseInt(record[1]) === parseInt(value));
-            break;
-        case "Data e Ora":
-            result = currentEarthquakes.filter((record) => record[2] === value);
-            break;
-        case "Latitudine":
-            result = currentEarthquakes.filter((record) => parseFloat(record[3]) === parseFloat(value));
-            break;
-        case "Longitudine":
-            result = currentEarthquakes.filter((record) => parseFloat(record[4]) === parseFloat(value));
-            break;
-        case "Profondità":
-            result = currentEarthquakes.filter((record) => parseFloat(record[5]) === parseFloat(value));
-            break;
-        case "Autore":
-            result = currentEarthquakes.filter((record) => record[6] === value);
-            break;
-        case "MagType":
-            result = currentEarthquakes.filter((record) => record[7] === value);
-            break;
-        case "Magnitudo":
-            result = currentEarthquakes.filter((record) => parseFloat(record[8]) === parseFloat(value));
-            break;
-        case "Zona":
-            result = currentEarthquakes.filter((record) => record[9] === value);
-            break;
+    if(key === "ID" || key === "EventID")  {
+        result = currentEarthquakes.filter((record) => parseInt(record[key]) === parseInt(value));
+    }else if(key === "Latitudine" || key === "Longitudine" || key === "Profondita" || key === "Magnitudo") {
+        result = currentEarthquakes.filter((record) => parseFloat(record[key]) === parseFloat(value));
+    }else{
+        result = currentEarthquakes.filter((record) => record[key] === value);
     }
+
+    // switch(key) {
+    //     case "ID":
+    //         result = currentEarthquakes.filter((record) => parseInt(record[0]) === parseInt(value));
+    //         break;
+    //     case "EventID":
+    //         result = currentEarthquakes.filter((record) => parseInt(record[1]) === parseInt(value));
+    //         break;
+    //     case "Data e Ora":
+    //         result = currentEarthquakes.filter((record) => record[2] === value);
+    //         break;
+    //     case "Latitudine":
+    //         result = currentEarthquakes.filter((record) => parseFloat(record[3]) === parseFloat(value));
+    //         break;
+    //     case "Longitudine":
+    //         result = currentEarthquakes.filter((record) => parseFloat(record[4]) === parseFloat(value));
+    //         break;
+    //     case "Profondità":
+    //         result = currentEarthquakes.filter((record) => parseFloat(record[5]) === parseFloat(value));
+    //         break;
+    //     case "Autore":
+    //         result = currentEarthquakes.filter((record) => record[6] === value);
+    //         break;
+    //     case "MagType":
+    //         result = currentEarthquakes.filter((record) => record[7] === value);
+    //         break;
+    //     case "Magnitudo":
+    //         result = currentEarthquakes.filter((record) => parseFloat(record[8]) === parseFloat(value));
+    //         break;
+    //     case "Zona":
+    //         result = currentEarthquakes.filter((record) => record[9] === value);
+    //         break;
+    // }
 
     res.json(result);
 });

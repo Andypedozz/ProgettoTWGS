@@ -7,22 +7,22 @@
     <link rel="stylesheet" type="text/css" href="style.css" />
     <link rel="stylesheet" type="text/css" href="src/pages/ricerca/ricerca.css" />
 </head>
+<header id="head">
+    <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
+    <nav id="navlist">
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/segnalazioni">Segnalazioni</a></li>
+            <li><a href="/ricerca">Ricerca</a></li>
+            <li><a href="/create">Aggiungi una segnalazione</a></li>
+            <li><a href="/stats">Statistiche</a></li>
+        </ul>
+    </nav>
+</header>
 <body>
-    <header id="head">
-        <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
-        <nav id="navlist">
-            <ul>
-                <li><a href="/home">Home</a></li>
-                <li><a href="/segnalazioni">Segnalazioni</a></li>
-                <li><a href="/ricerca">Ricerca</a></li>
-                <li><a href="/create">Aggiungi una segnalazione</a></li>
-                <li><a href="/stats">Statistiche</a></li>
-            </ul>
-        </nav>
-    </header>
-    <h2>Ricerca segnalazioni</h2>
-    <form action="javascript:loadTable()">
-        <p>
+    <div id="content">
+        <h2>Ricerca segnalazioni</h2>
+        <form action="javascript:loadTable()">
             <label id="prop-label">Proprietà</label>
             <select id="key-select" name="key" onchange="handleKeyChange()">
                 <option>Seleziona</option>
@@ -30,37 +30,32 @@
                 <option>EventID</option>
                 <option>Latitudine</option>
                 <option>Longitudine</option>
-                <option>Profondità</option>
+                <option>Profondita</option>
                 <option>Autore</option>
                 <option>MagType</option>
                 <option>Magnitudo</option>
-                <option>Zona</option>
+                <option>Localita</option>
             </select>
             <script id="key-change-script">
                 function handleKeyChange() {
                     const selectElement = document.getElementById('key-select');
                     const selectedValue = selectElement.value;
                     let inputField = document.getElementById("input-field");
-
-                    if(selectedValue === "ID" || selectedValue === "EventID" || selectedValue === "Latitudine" || selectedValue === "Longitudine" || selectedValue === "Profondità" || selectedValue === "Magnitudo") {
+    
+                    if(selectedValue === "ID" || selectedValue === "EventID" || selectedValue === "Latitudine" || selectedValue === "Longitudine" || selectedValue === "Profondita" || selectedValue === "Magnitudo") {
                         inputField.type = "number";
                         inputField.step = "any";
                     }
-                    else if(selectedValue === "Autore" || selectedValue === "MagType" || selectedValue === "Zona"){
+                    else if(selectedValue === "Autore" || selectedValue === "MagType" || selectedValue === "Localita"){
                         inputField.type = "text";
                     }
                     else {
-
+    
                     }
                     inputField.disabled = false;
                 }
             </script>
-        </p>
-        <p>
-            <label id="value-label">Valore</label>
             <input type="text" id="input-field" name="value" required="true" disabled="true">
-        </p>
-        <p>
             <input type="submit" id="confirm" disabled="true" value="Cerca" />
             <script id="input-change-script">
                 
@@ -75,40 +70,45 @@
                     }
                 });
             </script>
-        </p>
-    </form>
-    <div id="table-container">
-
-    </div>
-    <!-- HTTP GET REQUEST TABLE -->
-    <script src="src/components/DataTableFull.js"></script>
-    <script>
-        function loadTable() {
-            if(document.getElementById("table-container").childNodes.length > 0)
-                clear();
-
-            let columns = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondità","Autore","MagType","Magnitudo","Zona"];
-            let key = document.getElementById("key-select").value;
-            let value = document.getElementById("input-field").value;
-            let url = "/earthquakes/query?key="+key+"&value="+value;
-            fetch(url, {
-                method: "GET",
-                headers: {
-                    "Content-Type" : "application/json"
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                DataTableFull("table-container",columns,data)
-            })
-        }
-
-        function clear() {
-            const container = document.getElementById("table-container");
-            while(container.firstChild) {
-                container.removeChild(container.firstChild);
+        </form>
+        <div id="table-container">
+    
+        </div>
+        <!-- HTTP GET REQUEST TABLE -->
+        <script src="src/components/DataTableFull.js"></script>
+        <script>
+            function loadTable() {
+                if(document.getElementById("table-container").childNodes.length > 0)
+                    clear();
+    
+                let columns = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondita","Autore","MagType","Magnitudo","Localita"];
+                let key = document.getElementById("key-select").value;
+                let value = document.getElementById("input-field").value;
+                let url = "/earthquakes/query?key="+key+"&value="+value;
+                fetch(url, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type" : "application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    DataTableFull("table-container",columns,data)
+                })
             }
-        }
-    </script>
+    
+            function clear() {
+                const container = document.getElementById("table-container");
+                while(container.firstChild) {
+                    container.removeChild(container.firstChild);
+                }
+            }
+        </script>
+    </div>
+    <footer>
+        <p>
+            I dati utilizzati in questo sito sono presi da <a href="https://www.kaggle.com/code/booroom/italian-earthquakes-eda">www.kaggle.com</a>
+        </p>
+    </footer>
 </body>
 </html>

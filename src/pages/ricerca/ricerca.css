@@ -3,37 +3,9 @@ h2 {
 }
 
 form {
-    display: table;
     margin: auto;
     text-align: center;
-    padding: 4%;
-}
-
-p {
-    display: table-row;
-}
-
-#prop-label, #value-label {
-    display: table-cell;
-    margin: 5%;
-}
-
-select, input {
-    display: table-cell;
-    margin: 5%;
-}
-
-#confirm {
-    text-align: center;
-}
-
-#results > thead {
-    background: lightblue;
-}
-
-a {
-    text-decoration: none;
-    color: black;
+    padding: 1%;
 }
 
 #page-buttons {
