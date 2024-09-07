@@ -81,7 +81,7 @@
                 if(document.getElementById("table-container").childNodes.length > 0)
                     clear();
     
-                let columns = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondita","Autore","MagType","Magnitudo","Localita"];
+                let columns = ["ID","EventID","Data e Ora","Magnitudo","Localita"];
                 let key = document.getElementById("key-select").value;
                 let value = document.getElementById("input-field").value;
                 let url = "/earthquakes/query?key="+key+"&value="+value;

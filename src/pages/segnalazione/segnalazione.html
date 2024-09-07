@@ -20,7 +20,42 @@
             </ul>
         </nav>
     </header>
-    <table id="report">
-    </table>
+    <div id="content">
+        <h2>Dettagli report</h2>
+        <table id="report">
+
+        </table>
+        <script>
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            const id = urlParams.get('ID');
+            
+            const url = "/earthquakes?id="+id;
+            fetch(url, {
+                method: "GET",
+                headers: {
+                    "Content-Type" : "application/json",
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                const keys = Object.keys(data);
+                const table = document.getElementById("report");
+                for(var i = 0; i < keys.length; i++) {
+                    let newRow = table.insertRow();
+                    let keyCell = document.createElement("th");
+                    newRow.appendChild(keyCell);
+                    let valueCell = newRow.insertCell();
+                    keyCell.innerHTML = keys[i];
+                    valueCell.innerHTML = data[keys[i]];
+                }
+            });
+        </script>
+    </div>
+    <footer>
+        <p>
+            I dati utilizzati in questo sito sono presi da <a href="https://www.kaggle.com/code/booroom/italian-earthquakes-eda">www.kaggle.com</a>
+        </p>
+    </footer>
 </body>
 </html>

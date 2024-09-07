@@ -21,16 +21,18 @@
 </header>
 <body>
     <div id="content">
-        <h2>Segnalazioni</h2>
-        <div id="table-container">
-    
-        </div>
-        <!-- TABLE SWITCH PAGES -->
-        <script src="src/components/ReportsTable.js"></script>
-        <script>
-            let columns = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondita","Autore","MagType","Magnitudo","Localita"];
-            ReportsTable("table-container",columns);
-        </script>
+        <section>
+            <h2>Segnalazioni</h2>
+            <div id="reports-table-container">
+        
+            </div>
+            <!-- TABLE SWITCH PAGES -->
+            <script src="src/components/ReportsTable.js"></script>
+            <script>
+                let columns = ["ID","Data e Ora","Magnitudo","Localita"];
+                ReportsTable("reports-table-container",columns);
+            </script>
+        </section>
     </div>
     <footer>
         <p>

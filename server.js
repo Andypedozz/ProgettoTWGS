@@ -25,7 +25,8 @@ app.get('/earthquakes', (req, res) => {
     // QUERY BY ID
     const id = req.query.id;
     if(id != null) {
-        res.json(currentEarthquakes[Number.parseInt(id)]);
+        let toReturn = currentEarthquakes.find(record => record["ID"] === id);
+        res.json(toReturn);
         return 0;
     }
 

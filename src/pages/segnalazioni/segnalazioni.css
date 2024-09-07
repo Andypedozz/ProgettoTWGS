@@ -20,3 +20,16 @@ a {
     margin-left: 1%;
     margin-right: 1%;
 }
+
+@media (max-width: 600px) {
+    
+    .EventId-cell, .Author-cell .Profondita-cell, .MagType-cell, .Latitudine-cell, .Longitudine-cell {
+        display: none;
+    }
+}
+
+form {
+    margin: auto;
+    text-align: center;
+    padding: 1%;
+}

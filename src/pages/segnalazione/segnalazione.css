@@ -1,0 +1,13 @@
+h2 {
+    text-align: center;
+}
+
+#content {
+    background: white;
+    padding: 3%;
+}
+
+th {
+    background: rgb(102, 102, 102);
+    color: white;
+}

@@ -1,11 +1,13 @@
 const resultsPerPage = 28;
 var currentData;
+var fixedColumns;
 var pages;
 
 function DataTableFull(name, columns, data) {
     currentData = data;
+    fixedColumns = columns;
     pages = currentData.length / resultsPerPage;
-    const container = document.getElementById("table-container");
+    const container = document.getElementById(name);
     const table = document.createElement("table");
     table.id = "table";
     const thead = document.createElement("thead");
@@ -58,12 +60,20 @@ function fillTable(data) {
 
     // add rows
     for(var i = 0; i < data.length; i++) {
-        let record = Object.values(data[i]);
+        let record = data[i];
         let newRow = tbody.insertRow();
         newRow.class = "record-row";
-        for(var j = 0; j < record.length; j++) {
+        for(var j = 0; j < fixedColumns.length; j++) {
             let newCell = newRow.insertCell();
-            newCell.innerHTML = record[j];
+            newCell.class = fixedColumns[j] + "-cell";
+            if(fixedColumns[j] === "ID") {
+                let link = document.createElement("a");
+                link.href = "/segnalazione?ID="+record[fixedColumns[j]];
+                link.innerHTML = record[fixedColumns[j]];
+                newCell.appendChild(link);
+            }else{
+                newCell.innerHTML = record[fixedColumns[j]];
+            }
         }
     }
 }
