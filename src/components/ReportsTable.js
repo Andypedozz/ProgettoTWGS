@@ -46,7 +46,7 @@ function fillHeader(columns) {
     newRow.id = "header-row";
     for(var i = 0; i < columns.length; i++) {
         let newCell = newRow.insertCell();
-        newCell.class = columns[i] + "-cell";
+        newCell.class = columns[i];
         newCell.innerHTML = columns[i];
     }
 }
@@ -65,7 +65,7 @@ function fillRows(data) {
         newRow.class = "record-row";
         for(var j = 0; j < fixedColumns.length; j++) {
             let newCell = newRow.insertCell();
-            newCell.class = fixedColumns[j] + "-cell";
+            newCell.class = fixedColumns[j];
             if(fixedColumns[j] === "ID") {
                 let link = document.createElement("a");
                 link.href = "/segnalazione?ID="+record[fixedColumns[j]];

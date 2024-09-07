@@ -9,3 +9,7 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+
+#image-div {
+    background: white;
+}

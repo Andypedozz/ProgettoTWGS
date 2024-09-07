@@ -29,14 +29,16 @@
             <!-- TABLE SWITCH PAGES -->
             <script src="src/components/ReportsTable.js"></script>
             <script>
-                let columns = ["ID","Data e Ora","Magnitudo","Localita"];
+                let columns = ["ID","Data e Ora","Localita"];
+                // columns = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondita","Autore","MagType","Magnitudo","Localita"];
                 ReportsTable("reports-table-container",columns);
             </script>
         </section>
     </div>
     <footer>
         <p>
-            I dati utilizzati in questo sito sono presi da <a href="https://www.kaggle.com/code/booroom/italian-earthquakes-eda">www.kaggle.com</a>
+            I dati utilizzati in questo sito sono presi da <a href="https://www.kaggle.com/code/booroom/italian-earthquakes-eda">www.kaggle.com</a><br>
+            Andrea Pedini, Esame Tecnologie Web Per la Gestione del Territorio, a.a 2023/2024, Sessione Estiva.
         </p>
     </footer>
 </body>

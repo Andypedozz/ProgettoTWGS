@@ -23,7 +23,7 @@ a {
 
 @media (max-width: 600px) {
     
-    .EventId-cell, .Author-cell .Profondita-cell, .MagType-cell, .Latitudine-cell, .Longitudine-cell {
+    .ID {
         display: none;
     }
 }

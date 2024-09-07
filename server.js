@@ -40,7 +40,7 @@ app.get('/earthquakes', (req, res) => {
         return 0;
     }
 
-    res.json(earthquakes);
+    res.json(currentEarthquakes);
 });
 
 // MIGHT IMPROVE
