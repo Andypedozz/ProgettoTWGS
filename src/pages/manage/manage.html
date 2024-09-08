@@ -103,98 +103,134 @@
                 </p>
                 <input type="submit" id="confirm2" value="Conferma" />
             </form>
-            <script>
-                function addRecord() {
-                    const url = "/earthquakes/add";
-        
-                    const fDatetime = document.getElementById("datetime");
-                    const fLatitude = document.getElementById("latitude");
-                    const fLongitude = document.getElementById("longitude");
-                    const fDepth = document.getElementById("depth");
-                    const fAuthor = document.getElementById("author");
-                    const fMagType = document.getElementById("magType");
-                    const fMagnitude = document.getElementById("magnitude");
-                    const fZone = document.getElementById("zone");
-        
-                    const data = {
-                        "Data e Ora" : fDatetime.value,
-                        "Latitudine" : fLatitude.value,
-                        "Longitudine" : fLongitude.value,
-                        "Profondita" : fDepth.value,
-                        "Autore" : fAuthor.value,
-                        "MagType" : fMagType.value,
-                        "Magnitudo" : fMagnitude.value,
-                        "Localita" : fZone.value
-                    }
-        
-                    console.log(JSON.stringify(data));
-        
-                    fetch(url, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type" : "application/json"
-                        },
-                        body : JSON.stringify(data)
-                    })
-                    .then(() => {
-                        const container = document.getElementById("add-response-container");
-                        if(container.firstChild)
-                            container.removeChild(container.firstChild);
-                        const h2 = document.createElement("h2");
-                        h2.id = "success-message";
-                        h2.innerHTML = "Segnalazione inserita con successo!";
-                        container.appendChild(h2);
-                    })
-                    .catch(error => console.error("Errore: "+error));
-                }
-
-                function modifyRecord() {
-                    const url = "/earthquakes/modify";
-                    
-                    const fID = document.getElementById("id");
-                    const fDatetime = document.getElementById("datetime2");
-                    const fLatitude = document.getElementById("latitude2");
-                    const fLongitude = document.getElementById("longitude2");
-                    const fDepth = document.getElementById("depth2");
-                    const fAuthor = document.getElementById("author2");
-                    const fMagType = document.getElementById("magType2");
-                    const fMagnitude = document.getElementById("magnitude2");
-                    const fZone = document.getElementById("zone2");
-
-                    const data = {
-                        "ID" : fID.value,
-                        "Data e Ora" : fDatetime.value,
-                        "Latitudine" : fLatitude.value,
-                        "Longitudine" : fLongitude.value,
-                        "Profondita" : fDepth.value,
-                        "Autore" : fAuthor.value,
-                        "MagType" : fMagType.value,
-                        "Magnitudo" : fMagnitude.value,
-                        "Localita" : fZone.value
-                    }
-
-                    console.log(JSON.stringify(data));
-        
-                    fetch(url, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type" : "application/json"
-                        },
-                        body : JSON.stringify(data)
-                    })
-                    .then(() => {
-                        const container = document.getElementById("modify-response-container");
-                        if(container.firstChild)
-                            container.removeChild(container.firstChild);
-                        const h2 = document.createElement("h2");
-                        h2.id = "success-message";
-                        h2.innerHTML = "Segnalazione modificata con successo!";
-                        container.appendChild(h2);
-                    })
-                    .catch(error => console.error("Errore: "+error));
-                }
-            </script>
         </div>
+        <h2 id="delete-title">Elimina una segnalazione</h2>
+        <div id="delete-response-container">
+        </div>
+        <div class="form-container">
+            <form action="javascript:deleteRecord()">
+                <p>
+                    <label>ID</label>
+                    <input type="number" id="id2" required="true" />
+                </p>
+                <input type="submit" id="confirm3" value="Conferma" />
+            </form>
+        </div>
+        <script>
+            function addRecord() {
+                const url = "/earthquakes/add";
+    
+                const fDatetime = document.getElementById("datetime");
+                const fLatitude = document.getElementById("latitude");
+                const fLongitude = document.getElementById("longitude");
+                const fDepth = document.getElementById("depth");
+                const fAuthor = document.getElementById("author");
+                const fMagType = document.getElementById("magType");
+                const fMagnitude = document.getElementById("magnitude");
+                const fZone = document.getElementById("zone");
+    
+                const data = {
+                    "Data e Ora" : fDatetime.value,
+                    "Latitudine" : fLatitude.value,
+                    "Longitudine" : fLongitude.value,
+                    "Profondita" : fDepth.value,
+                    "Autore" : fAuthor.value,
+                    "MagType" : fMagType.value,
+                    "Magnitudo" : fMagnitude.value,
+                    "Localita" : fZone.value
+                }
+    
+                console.log(JSON.stringify(data));
+    
+                fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    body : JSON.stringify(data)
+                })
+                .then(() => {
+                    const container = document.getElementById("add-response-container");
+                    if(container.firstChild)
+                        container.removeChild(container.firstChild);
+                    const h2 = document.createElement("h2");
+                    h2.class = "success-message";
+                    h2.innerHTML = "Segnalazione inserita con successo!";
+                    container.appendChild(h2);
+                })
+                .catch(error => console.error("Errore: "+error));
+            }
+
+            function modifyRecord() {
+                const url = "/earthquakes/modify";
+                
+                const fID = document.getElementById("id");
+                const fDatetime = document.getElementById("datetime2");
+                const fLatitude = document.getElementById("latitude2");
+                const fLongitude = document.getElementById("longitude2");
+                const fDepth = document.getElementById("depth2");
+                const fAuthor = document.getElementById("author2");
+                const fMagType = document.getElementById("magType2");
+                const fMagnitude = document.getElementById("magnitude2");
+                const fZone = document.getElementById("zone2");
+
+                const data = {
+                    "ID" : fID.value,
+                    "Data e Ora" : fDatetime.value,
+                    "Latitudine" : fLatitude.value,
+                    "Longitudine" : fLongitude.value,
+                    "Profondita" : fDepth.value,
+                    "Autore" : fAuthor.value,
+                    "MagType" : fMagType.value,
+                    "Magnitudo" : fMagnitude.value,
+                    "Localita" : fZone.value
+                }
+
+                console.log(JSON.stringify(data));
+    
+                fetch(url, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type" : "application/json"
+                    },
+                    body : JSON.stringify(data)
+                })
+                .then(() => {
+                    const container = document.getElementById("modify-response-container");
+                    if(container.firstChild)
+                        container.removeChild(container.firstChild);
+                    const h2 = document.createElement("h2");
+                    h2.class = "success-message";
+                    h2.innerHTML = "Segnalazione modificata con successo!";
+                    container.appendChild(h2);
+                })
+                .catch(error => console.error("Errore: "+error));
+            }
+
+            function deleteRecord() {
+                
+                const fID = document.getElementById("id2");
+                const url = "/earthquakes/delete?id="+fID.value;
+                
+                fetch(url, {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type" : "application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(() => {
+                    const container = document.getElementById("delete-response-container");
+                    if(container.firstChild)
+                        container.removeChild(container.firstChild);
+                    const h2 = document.createElement("h2");
+                    h2.class = "success-message";
+                    h2.innerHTML = "Segnalazione rimossa con successo!";
+                    container.appendChild(h2);
+                })
+                .catch(error => console.error("Errore: "+error));
+            }
+        </script>
     </div>
     <footer>
         <p>

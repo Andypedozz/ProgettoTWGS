@@ -6,6 +6,7 @@ const port = 3000;
 
 const earthquakes = fs.readFileSync("src/db/earthquakes.json");
 var currentEarthquakes = JSON.parse(earthquakes);
+currentEarthquakes = Object.values(currentEarthquakes);
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/")));
@@ -84,7 +85,7 @@ app.post("/earthquakes/add", (req, res) => {
     currentEarthquakes.unshift(earthquake);
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    res.send("Message: Successfully added record!");
+    res.type("text/plain").send("Message: Successfully added record!");
 });
 
 // PUT: aggiorna una segnalazione
@@ -106,7 +107,30 @@ app.put("/earthquakes/modify", (req, res) => {
     }
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    res.send("Message: Successfully updated record!");
+    res.type("text/plain").send("Message: Successfully updated record!");
+});
+
+app.delete("/earthquakes/delete", (req, res) => {
+    if(currentEarthquakes.length == 0) {
+        res.type("text/plain").send("Non ci sono segnalazioni!");
+        return 0;
+    }
+
+    let id = req.query.id;
+    let index = currentEarthquakes.findIndex(record => record["ID"] === id);
+    console.log("ID:"+id);
+    
+    if (index === -1) {
+        console.log("Index:"+index);
+        console.log("Record not found!");
+        res.type("text/plain").send("Message: record not found!");
+        return 0;
+    }
+    
+    console.log("Index:"+index);
+    currentEarthquakes.splice(index, 1);
+    fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
+    res.type("text/plain").send("Message: Successfully deleted record!");
 });
 
 
