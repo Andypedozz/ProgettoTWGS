@@ -14,8 +14,7 @@
             <li><a href="/home">Home</a></li>
             <li><a href="/segnalazioni">Segnalazioni</a></li>
             <li><a href="/ricerca">Ricerca</a></li>
-            <li><a href="/create">Aggiungi una segnalazione</a></li>
-            <li><a href="/stats">Statistiche</a></li>
+            <li><a href="/manage">Gestisci segnalazioni</a></li>
         </ul>
     </nav>
 </header>
@@ -30,7 +29,7 @@
             <script src="src/components/ReportsTable.js"></script>
             <script>
                 let columns = ["ID","Data e Ora","Localita"];
-                // columns = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondita","Autore","MagType","Magnitudo","Localita"];
+                columns = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondita","Autore","MagType","Magnitudo","Localita"];
                 ReportsTable("reports-table-container",columns);
             </script>
         </section>

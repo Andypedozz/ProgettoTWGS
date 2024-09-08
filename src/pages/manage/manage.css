@@ -1,4 +1,4 @@
-.form-container {
+.form-container  {
     display: table;
     margin: auto;
     margin-top: 2%;
@@ -14,11 +14,11 @@
     margin: 3%;
 }
 
-.response-container {
+#add-response-container, #modify-response-container {
     text-align: center;
 }
 
-#title2 {
+#add-title, #modify-title {
     text-align: center;
 }
 

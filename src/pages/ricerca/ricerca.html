@@ -14,8 +14,7 @@
             <li><a href="/home">Home</a></li>
             <li><a href="/segnalazioni">Segnalazioni</a></li>
             <li><a href="/ricerca">Ricerca</a></li>
-            <li><a href="/create">Aggiungi una segnalazione</a></li>
-            <li><a href="/stats">Statistiche</a></li>
+            <li><a href="/manage">Gestisci segnalazioni</a></li>
         </ul>
     </nav>
 </header>
@@ -81,8 +80,11 @@
                 if(document.getElementById("table-container").childNodes.length > 0)
                     clear();
     
-                let columns = ["ID","EventID","Data e Ora","Magnitudo","Localita"];
                 let key = document.getElementById("key-select").value;
+                let columns = ["ID","Data e Ora","Localita"];
+                if(!columns.includes(key)) {
+                    columns.push(key);
+                }
                 let value = document.getElementById("input-field").value;
                 let url = "/earthquakes/query?key="+key+"&value="+value;
                 fetch(url, {

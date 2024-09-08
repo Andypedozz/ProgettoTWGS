@@ -58,66 +58,36 @@ app.get("/earthquakes/query", (req, res) => {
         result = currentEarthquakes.filter((record) => record[key] === value);
     }
 
-    // switch(key) {
-    //     case "ID":
-    //         result = currentEarthquakes.filter((record) => parseInt(record[0]) === parseInt(value));
-    //         break;
-    //     case "EventID":
-    //         result = currentEarthquakes.filter((record) => parseInt(record[1]) === parseInt(value));
-    //         break;
-    //     case "Data e Ora":
-    //         result = currentEarthquakes.filter((record) => record[2] === value);
-    //         break;
-    //     case "Latitudine":
-    //         result = currentEarthquakes.filter((record) => parseFloat(record[3]) === parseFloat(value));
-    //         break;
-    //     case "Longitudine":
-    //         result = currentEarthquakes.filter((record) => parseFloat(record[4]) === parseFloat(value));
-    //         break;
-    //     case "Profondità":
-    //         result = currentEarthquakes.filter((record) => parseFloat(record[5]) === parseFloat(value));
-    //         break;
-    //     case "Autore":
-    //         result = currentEarthquakes.filter((record) => record[6] === value);
-    //         break;
-    //     case "MagType":
-    //         result = currentEarthquakes.filter((record) => record[7] === value);
-    //         break;
-    //     case "Magnitudo":
-    //         result = currentEarthquakes.filter((record) => parseFloat(record[8]) === parseFloat(value));
-    //         break;
-    //     case "Zona":
-    //         result = currentEarthquakes.filter((record) => record[9] === value);
-    //         break;
-    // }
-
     res.json(result);
 });
 
 // FIXME
 // POST: crea una nuova segnalazione
 app.post("/earthquakes/add", (req, res) => {
-    let data = Object.values(req.body);
-    let earthquake = [];
+    let data = req.body;
+    let earthquake = {};
 
-    let lastRecord = currentEarthquakes[currentEarthquakes.length - 1];
-    let lastId = parseInt(lastRecord[0]);
-    let lastEventId = parseInt(lastRecord[1]);
+    let highestRecord = currentEarthquakes[0];
+    let lastId = parseInt(highestRecord["ID"]);
+    let lastEventId = parseInt(highestRecord["EventID"]);
 
-    earthquake.push(lastId + 1);
-    earthquake.push(lastEventId + 1);
+    earthquake["ID"] = (lastId + 1).toString();
+    earthquake["EventID"] = (lastEventId + 1).toString();
 
-    for(var i = 0; i < data.length; i++) {
-        earthquake.push(data[i]);
+    let keys = Object.keys(data);
+
+    for(let i = 0; i < keys.length; i++) {
+        earthquake[keys[i]] = data[keys[i]];
     }
-
-    currentEarthquakes.push(earthquake);
+    
+    console.log(earthquake);
+    currentEarthquakes.unshift(earthquake);
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
     res.send("Message: Successfully added record!");
 });
 
-// PUT: aggiorna una segnalazione --> aggiorna il magnitudo data la posizione della segnalazione
+// PUT: aggiorna una segnalazione
 app.put("/earthquakes/modify", (req, res) => {
     if(currentEarthquakes.length == 0) {
         res.type("text/plain").send("Non ci sono segnalazioni!");
@@ -125,16 +95,20 @@ app.put("/earthquakes/modify", (req, res) => {
     }
 
     let data = req.body;
-    let updatedData = [];
+    let record = currentEarthquakes.find(row => row["ID"] === data["ID"]);
 
-    for(var i = 0; i < data.length; i++) {
-        updatedData.push(data[i]);
+    let keys = Object.keys(data);
+
+    for(let i = 0; i < keys.length; i++) {
+        if(data[keys[i]] !== null || data[keys[i]] !== undefined) {
+            record[keys[i]] = data[keys[i]];
+        }
     }
 
-    currentEarthquakes[data[0]] = updatedData;
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
     res.send("Message: Successfully updated record!");
 });
+
 
 /********************************/
 /*         ENDPOINT GUI         */
@@ -160,12 +134,8 @@ app.get("/segnalazione", async function(req, res) {
     res.sendFile(path.join(__dirname, "src/pages/segnalazione/segnalazione.html"));
 });
 
-app.get("/create", (req, res) => {
-    res.sendFile(path.join(__dirname, "src/pages/create/create.html"));
-});
-
-app.get("/stats", (req, res) => {
-    res.sendFile(path.join(__dirname, "src/pages/stats/stats.html"));
+app.get("/manage", (req, res) => {
+    res.sendFile(path.join(__dirname, "src/pages/manage/manage.html"));
 });
 
 app.listen(port, () => {
