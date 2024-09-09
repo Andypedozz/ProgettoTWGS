@@ -106,6 +106,7 @@
         </div>
         <h2 id="delete-title">Elimina una segnalazione</h2>
         <div id="delete-response-container">
+
         </div>
         <div class="form-container">
             <form action="javascript:deleteRecord()">
@@ -153,16 +154,15 @@
                     const container = document.getElementById("add-response-container");
                     if(container.firstChild)
                         container.removeChild(container.firstChild);
-                    const h2 = document.createElement("h2");
-                    h2.class = "success-message";
-                    h2.innerHTML = "Segnalazione inserita con successo!";
-                    container.appendChild(h2);
+                    const add_h2 = document.createElement("h2");
+                    add_h2.id = "add-success-message";
+                    add_h2.innerHTML = "Segnalazione inserita con successo!";
+                    container.appendChild(add_h2);
                 })
                 .catch(error => console.error("Errore: "+error));
             }
 
             function modifyRecord() {
-                const url = "/earthquakes/modify";
                 
                 const fID = document.getElementById("id");
                 const fDatetime = document.getElementById("datetime2");
@@ -173,9 +173,9 @@
                 const fMagType = document.getElementById("magType2");
                 const fMagnitude = document.getElementById("magnitude2");
                 const fZone = document.getElementById("zone2");
-
+                
+                const url = "/earthquakes/modify/"+fID.value;
                 const data = {
-                    "ID" : fID.value,
                     "Data e Ora" : fDatetime.value,
                     "Latitudine" : fLatitude.value,
                     "Longitudine" : fLongitude.value,
@@ -199,10 +199,10 @@
                     const container = document.getElementById("modify-response-container");
                     if(container.firstChild)
                         container.removeChild(container.firstChild);
-                    const h2 = document.createElement("h2");
-                    h2.class = "success-message";
-                    h2.innerHTML = "Segnalazione modificata con successo!";
-                    container.appendChild(h2);
+                    const modify_h2 = document.createElement("h2");
+                    modify_h2.id = "modify-success-message";
+                    modify_h2.innerHTML = "Segnalazione modificata con successo!";
+                    container.appendChild(modify_h2);
                 })
                 .catch(error => console.error("Errore: "+error));
             }
@@ -210,7 +210,7 @@
             function deleteRecord() {
                 
                 const fID = document.getElementById("id2");
-                const url = "/earthquakes/delete?id="+fID.value;
+                const url = "/earthquakes/delete/"+fID.value;
                 
                 fetch(url, {
                     method: "DELETE",
@@ -223,10 +223,10 @@
                     const container = document.getElementById("delete-response-container");
                     if(container.firstChild)
                         container.removeChild(container.firstChild);
-                    const h2 = document.createElement("h2");
-                    h2.class = "success-message";
-                    h2.innerHTML = "Segnalazione rimossa con successo!";
-                    container.appendChild(h2);
+                    const delete_h2 = document.createElement("h2");
+                    delete_h2.id = "delete-success-message";
+                    delete_h2.innerHTML = "Segnalazione rimossa con successo!";
+                    container.appendChild(delete_h2);
                 })
                 .catch(error => console.error("Errore: "+error));
             }

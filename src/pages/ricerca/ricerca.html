@@ -86,7 +86,7 @@
                     columns.push(key);
                 }
                 let value = document.getElementById("input-field").value;
-                let url = "/earthquakes/query?key="+key+"&value="+value;
+                let url = "/earthquakes/query/"+key+"/"+value;
                 fetch(url, {
                     method: "GET",
                     headers: {

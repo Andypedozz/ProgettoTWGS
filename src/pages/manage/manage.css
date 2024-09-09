@@ -14,7 +14,7 @@
     margin: 3%;
 }
 
-#add-response-container, #modify-response-container {
+#add-response-container, #modify-response-container, #delete-response-container {
     text-align: center;
 }
 
@@ -22,7 +22,7 @@
     text-align: center;
 }
 
-#success-message {
+#add-success-message, #modify-success-message, #delete-success-message {
     color: green;
     text-align: center;
     border: 1px solid green;

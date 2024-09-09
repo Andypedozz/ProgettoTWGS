@@ -109,7 +109,7 @@ function nextPage() {
 function updateTable(page) {
     let startIndex = (page - 1) * resultsPerPage;
     let endIndex = startIndex + resultsPerPage;
-    const url = "/earthquakes?startIndex="+startIndex+"&endIndex="+endIndex;
+    const url = "/earthquakes/"+startIndex+"/"+endIndex;
 
     return fetch(url, {
         method: "GET",

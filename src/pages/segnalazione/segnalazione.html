@@ -29,7 +29,7 @@
             const urlParams = new URLSearchParams(queryString);
             const id = urlParams.get('ID');
             
-            const url = "/earthquakes?id="+id;
+            const url = "/earthquakes/"+id;
             fetch(url, {
                 method: "GET",
                 headers: {

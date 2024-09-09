@@ -16,38 +16,77 @@ app.use(express.json({ type: '*/*' }));
 /*         ENDPOINT         */
 /****************************/
 
-// GET: ottieni la lista di tutti i terremoti
+/**
+ *  GET all earthquakes
+ */
 app.get('/earthquakes', (req, res) => {
     if(currentEarthquakes.length == 0) {
-        res.type('text/plain').send("Non ci sono terremoti disponibili!");
-        return 0;
-    }
-
-    // QUERY BY ID
-    const id = req.query.id;
-    if(id != null) {
-        let toReturn = currentEarthquakes.find(record => record["ID"] === id);
-        res.json(toReturn);
-        return 0;
-    }
-
-    // QUERY BY INDEXES
-    const startIndex = req.query.startIndex;
-    const endIndex = req.query.endIndex;
-
-    if(startIndex != null && endIndex != null) {
-        let data = currentEarthquakes.slice(startIndex,endIndex);
-        res.json(data);
+        res.type("text/plain").send("There are no reports");
         return 0;
     }
 
     res.json(currentEarthquakes);
 });
 
-// MIGHT IMPROVE
-app.get("/earthquakes/query", (req, res) => {
-    const key = req.query.key;
-    const value = req.query.value;
+/**
+ *  GET an earthquake report by ID
+ */
+app.get('/earthquakes/:id', (req, res) => {
+    if(currentEarthquakes.length == 0) {
+        res.type("text/plain").send("There are no reports");
+        return 0;
+    }
+
+    const id = req.params.id;
+    if(id == null) {
+        res.status(400);
+        res.type("text/plain").send("Missing parameters: id is null");
+    }
+
+    let toReturn = currentEarthquakes.find(record => record["ID"] === id);
+    if(toReturn == null || toReturn == undefined) {
+        res.status(404);
+        res.type("text/plain").send("Error: resource not found!");
+    }
+
+    res.status(200);
+    res.json(toReturn);
+});
+
+/**
+ *  GET a range of earthquakes reports
+ */
+app.get('/earthquakes/:startIndex/:endIndex', (req, res) => {
+    if(currentEarthquakes.length == 0) {
+        res.type("text/plain").send("There are no reports");
+        return 0;
+    }
+
+    const startIndex = req.params.startIndex;
+    const endIndex = req.params.endIndex;
+
+    if(startIndex == null || endIndex == null) {
+        res.status(400);
+        res.type("text/plain").send("Missing parameters: either startIndex or endIndex is null");
+        return 0;
+    }
+    
+    let data = currentEarthquakes.slice(startIndex,endIndex);
+    if(data == null || data == undefined) {
+        res.status(404);
+        res.type("text/plain").send("Error: invalid range or resources not found");
+    }
+
+    res.status(200);
+    res.json(data);
+});
+
+/**
+ *  GET all earthquakes reports with a certain key/value pair
+ */
+app.get("/earthquakes/query/:key/:value", (req, res) => {
+    const key = req.params.key;
+    const value = req.params.value;
 
     let result = [];
 
@@ -62,8 +101,7 @@ app.get("/earthquakes/query", (req, res) => {
     res.json(result);
 });
 
-// FIXME
-// POST: crea una nuova segnalazione
+// POST a new earthquake report
 app.post("/earthquakes/add", (req, res) => {
     let data = req.body;
     let earthquake = {};
@@ -88,15 +126,21 @@ app.post("/earthquakes/add", (req, res) => {
     res.type("text/plain").send("Message: Successfully added record!");
 });
 
-// PUT: aggiorna una segnalazione
-app.put("/earthquakes/modify", (req, res) => {
+// PUT: update an earthquake report
+app.put("/earthquakes/modify/:id", (req, res) => {
     if(currentEarthquakes.length == 0) {
-        res.type("text/plain").send("Non ci sono segnalazioni!");
+        res.type("text/plain").send("There are no reports");
         return 0;
     }
 
+    let id = req.params.id;
     let data = req.body;
-    let record = currentEarthquakes.find(row => row["ID"] === data["ID"]);
+    let record = currentEarthquakes.find(row => row["ID"] === id);
+
+    if(record == null || record == undefined) {
+        res.status(404);
+        res.type("text/plain").send("Record to modify doesn't exist");
+    }
 
     let keys = Object.keys(data);
 
@@ -107,27 +151,27 @@ app.put("/earthquakes/modify", (req, res) => {
     }
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    res.type("text/plain").send("Message: Successfully updated record!");
+    res.type("text/plain").send("Successfully updated record!");
 });
 
-app.delete("/earthquakes/delete", (req, res) => {
+/**
+ *  DELETE an earthquake report
+ */
+app.delete("/earthquakes/delete/:id", (req, res) => {
     if(currentEarthquakes.length == 0) {
-        res.type("text/plain").send("Non ci sono segnalazioni!");
+        res.type("text/plain").send("There are no reports");
         return 0;
     }
 
-    let id = req.query.id;
+    let id = req.params.id;
     let index = currentEarthquakes.findIndex(record => record["ID"] === id);
-    console.log("ID:"+id);
     
     if (index === -1) {
-        console.log("Index:"+index);
-        console.log("Record not found!");
-        res.type("text/plain").send("Message: record not found!");
+        res.status(404);
+        res.type("text/plain").send("Report not found!");
         return 0;
     }
     
-    console.log("Index:"+index);
     currentEarthquakes.splice(index, 1);
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
     res.type("text/plain").send("Message: Successfully deleted record!");
