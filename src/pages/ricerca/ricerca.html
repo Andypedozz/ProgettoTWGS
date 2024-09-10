@@ -27,6 +27,7 @@
                 <option>Seleziona</option>
                 <option>ID</option>
                 <option>EventID</option>
+                <option>Data</option>
                 <option>Latitudine</option>
                 <option>Longitudine</option>
                 <option>Profondita</option>
@@ -41,15 +42,15 @@
                     const selectedValue = selectElement.value;
                     let inputField = document.getElementById("input-field");
     
-                    if(selectedValue === "ID" || selectedValue === "EventID" || selectedValue === "Latitudine" || selectedValue === "Longitudine" || selectedValue === "Profondita" || selectedValue === "Magnitudo") {
+                    if(selectedValue === "ID" || selectedValue === "EventID" || selectedValue === "Anno" || selectedValue === "Latitudine" || selectedValue === "Longitudine" || selectedValue === "Profondita" || selectedValue === "Magnitudo") {
                         inputField.type = "number";
                         inputField.step = "any";
                     }
                     else if(selectedValue === "Autore" || selectedValue === "MagType" || selectedValue === "Localita"){
                         inputField.type = "text";
                     }
-                    else {
-    
+                    else if(selectedValue === "Data"){
+                        inputField.type = "date";
                     }
                     inputField.disabled = false;
                 }
@@ -82,7 +83,8 @@
     
                 let key = document.getElementById("key-select").value;
                 let columns = ["ID","Data e Ora","Localita"];
-                if(!columns.includes(key)) {
+                let keys = ["ID","EventID","Data e Ora","Latitudine","Longitudine","Profondita","Autore","MagType","Magnitudo","Localita"];
+                if(!columns.includes(key) && keys.includes(key)) {
                     columns.push(key);
                 }
                 let value = document.getElementById("input-field").value;

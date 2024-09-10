@@ -21,7 +21,9 @@ app.use(express.json({ type: '*/*' }));
  */
 app.get('/earthquakes', (req, res) => {
     if(currentEarthquakes.length == 0) {
-        res.type("text/plain").send("There are no reports");
+        let message = "There are no reports";
+        console.log("Response: "+message);
+        res.type("text/plain").send(message);
         return 0;
     }
 
@@ -33,20 +35,26 @@ app.get('/earthquakes', (req, res) => {
  */
 app.get('/earthquakes/:id', (req, res) => {
     if(currentEarthquakes.length == 0) {
-        res.type("text/plain").send("There are no reports");
+        let message = "There are no reports";
+        console.log("Response: "+message);
+        res.type("text/plain").send(message);
         return 0;
     }
 
     const id = req.params.id;
     if(id == null) {
         res.status(400);
-        res.type("text/plain").send("Missing parameters: id is null");
+        let message = "Id is null";
+        console.log("Response: "+message);
+        res.type("text/plain").send(message);
     }
 
     let toReturn = currentEarthquakes.find(record => record["ID"] === id);
     if(toReturn == null || toReturn == undefined) {
         res.status(404);
-        res.type("text/plain").send("Error: resource not found!");
+        let message = "Report not found!";
+        console.log("Response: "+message);
+        res.type("text/plain").send(message);
     }
 
     res.status(200);
@@ -58,7 +66,9 @@ app.get('/earthquakes/:id', (req, res) => {
  */
 app.get('/earthquakes/:startIndex/:endIndex', (req, res) => {
     if(currentEarthquakes.length == 0) {
-        res.type("text/plain").send("There are no reports");
+        let message = "There are no reports";
+        console.log("Response: "+message);
+        res.type("text/plain").send(message);
         return 0;
     }
 
@@ -67,14 +77,17 @@ app.get('/earthquakes/:startIndex/:endIndex', (req, res) => {
 
     if(startIndex == null || endIndex == null) {
         res.status(400);
-        res.type("text/plain").send("Missing parameters: either startIndex or endIndex is null");
+        let message = "Either startIndex or endIndex is null";
+        console.log("Response: "+message)
+        res.type("text/plain").send(message);
         return 0;
     }
     
     let data = currentEarthquakes.slice(startIndex,endIndex);
     if(data == null || data == undefined) {
         res.status(404);
-        res.type("text/plain").send("Error: invalid range or resources not found");
+        let message = "Invalid range or resources not found";
+        res.type("text/plain").send(message);
     }
 
     res.status(200);
@@ -94,8 +107,10 @@ app.get("/earthquakes/query/:key/:value", (req, res) => {
         result = currentEarthquakes.filter((record) => parseInt(record[key]) === parseInt(value));
     }else if(key === "Latitudine" || key === "Longitudine" || key === "Profondita" || key === "Magnitudo") {
         result = currentEarthquakes.filter((record) => parseFloat(record[key]) === parseFloat(value));
+    }else if(key === "Data"){
+        result = currentEarthquakes.filter((record) => JSON.stringify(record["Data e Ora"]).includes(value));
     }else{
-        result = currentEarthquakes.filter((record) => record[key] === value);
+        result = currentEarthquakes.filter((record) => JSON.stringify(record[key]).includes(value));
     }
 
     res.json(result);
@@ -109,6 +124,8 @@ app.post("/earthquakes/add", (req, res) => {
     let highestRecord = currentEarthquakes[0];
     let lastId = parseInt(highestRecord["ID"]);
     let lastEventId = parseInt(highestRecord["EventID"]);
+    data["Data e Ora"] = data["Data e Ora"].replace("T", " ");
+    data["Data e Ora"] = data["Data e Ora"] + " " + data["Millisecondi"];
 
     earthquake["ID"] = (lastId + 1).toString();
     earthquake["EventID"] = (lastEventId + 1).toString();
@@ -123,23 +140,28 @@ app.post("/earthquakes/add", (req, res) => {
     currentEarthquakes.unshift(earthquake);
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    res.type("text/plain").send("Message: Successfully added record!");
+    res.type("text/plain").send("Successfully added record!");
 });
 
 // PUT: update an earthquake report
 app.put("/earthquakes/modify/:id", (req, res) => {
     if(currentEarthquakes.length == 0) {
-        res.type("text/plain").send("There are no reports");
+        let message = "There are no reports";
+        console.log("Response: "+message);
+        res.type("text/plain").send(message);
         return 0;
     }
 
     let id = req.params.id;
     let data = req.body;
+    console.log(data);
     let record = currentEarthquakes.find(row => row["ID"] === id);
 
     if(record == null || record == undefined) {
         res.status(404);
-        res.type("text/plain").send("Record to modify doesn't exist");
+        let message = "Record to modify doesn't exist";
+        console.log("Response: "+message);
+        res.type("text/plain").send(message);
     }
 
     let keys = Object.keys(data);
@@ -159,7 +181,9 @@ app.put("/earthquakes/modify/:id", (req, res) => {
  */
 app.delete("/earthquakes/delete/:id", (req, res) => {
     if(currentEarthquakes.length == 0) {
-        res.type("text/plain").send("There are no reports");
+        let message = "There are no reports";
+        console.log("Response: "+message);
+        res.type("text/plain").send(message);
         return 0;
     }
 
@@ -168,13 +192,15 @@ app.delete("/earthquakes/delete/:id", (req, res) => {
     
     if (index === -1) {
         res.status(404);
-        res.type("text/plain").send("Report not found!");
+        let message = "Report not found!";
+        console.log("Response: "+message);
+        res.type("text/plain").send(message);
         return 0;
     }
     
     currentEarthquakes.splice(index, 1);
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    res.type("text/plain").send("Message: Successfully deleted record!");
+    res.type("text/plain").send("Successfully deleted record!");
 });
 
 

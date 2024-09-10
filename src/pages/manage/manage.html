@@ -20,49 +20,49 @@
 </header>
 <body>
     <div id="content">
-        <h2 id="add-title">Aggiungi una segnalazione</h2>
-        <div id="add-response-container">
-        </div>
+        <h2>Aggiungi una segnalazione</h2>
         <div class="form-container">
             <form action="javascript:addRecord()">
                 <p>
                     <label>Data e ora</label>
-                    <input type="datetime-local" id="datetime" required="true"/><br>
+                    <input type="datetime-local" id="datetime" step="1" required="true"/>
+                </p>
+                <p>
+                    <label>Millisecondi</label>
+                    <input type="number" pattern="\d{6}" id="milliseconds" required="true"/>
                 </p>
                 <p>
                     <label>Latitudine</label>
-                    <input type="number" id="latitude" required="true"/><br>
+                    <input type="number" id="latitude" required="true"/>
                 </p>
                 <p>
                     <label>Longitudine</label>
-                    <input type="number" id="longitude" required="true"/><br>
+                    <input type="number" id="longitude" required="true"/>
                 </p>
                 <p>
                     <label>Profondità</label>
-                    <input type="number" id="depth" required="true"/><br>
+                    <input type="number" id="depth" required="true"/>
                 </p>
                 <p>
                     <label>Autore</label>
-                    <input type="text" id="author" name="author"/><br>
+                    <input type="text" id="author" name="author"/>
                 </p>
                 <p>
                     <label>MagType</label>
-                    <input type="text" id="magType" required="true"/><br>
+                    <input type="text" id="magType" required="true"/>
                 </p>
                 <p>
                     <label>Magnitudo</label>
-                    <input type="number" step="0.1" id="magnitude" required="true"/><br>
+                    <input type="number" step="0.1" id="magnitude" required="true"/>
                 </p>
                 <p>
                     <label>Località</label>
-                    <input type="text" id="zone" required="true"/><br>
+                    <input type="text" id="zone" required="true"/>
                 </p>
                 <input type="submit" id="confirm" value="Conferma" />
             </form>
         </div>
-        <h2 id="modify-title">Modifica una segnalazione</h2>
-        <div id="modify-response-container">
-        </div>
+        <h2>Modifica una segnalazione</h2>
         <div class="form-container">
             <form action="javascript:modifyRecord()">
                 <p>
@@ -71,7 +71,11 @@
                 </p>
                 <p>
                     <label>Data e ora</label>
-                    <input type="datetime-local" id="datetime2" required="true"/>
+                    <input type="datetime-local" id="datetime2" step="1" required="true"/>
+                </p>
+                <p>
+                    <label>Millisecondi</label>
+                    <input type="number" pattern="\d{6}" id="milliseconds2" required="true"/>
                 </p>
                 <p>
                     <label>Latitudine</label>
@@ -104,10 +108,7 @@
                 <input type="submit" id="confirm2" value="Conferma" />
             </form>
         </div>
-        <h2 id="delete-title">Elimina una segnalazione</h2>
-        <div id="delete-response-container">
-
-        </div>
+        <h2>Elimina una segnalazione</h2>
         <div class="form-container">
             <form action="javascript:deleteRecord()">
                 <p>
@@ -122,6 +123,7 @@
                 const url = "/earthquakes/add";
     
                 const fDatetime = document.getElementById("datetime");
+                const fMilliseconds = document.getElementById("milliseconds");
                 const fLatitude = document.getElementById("latitude");
                 const fLongitude = document.getElementById("longitude");
                 const fDepth = document.getElementById("depth");
@@ -132,6 +134,7 @@
     
                 const data = {
                     "Data e Ora" : fDatetime.value,
+                    "Millisecondi" : fMilliseconds.value,
                     "Latitudine" : fLatitude.value,
                     "Longitudine" : fLongitude.value,
                     "Profondita" : fDepth.value,
@@ -150,22 +153,17 @@
                     },
                     body : JSON.stringify(data)
                 })
-                .then(() => {
-                    const container = document.getElementById("add-response-container");
-                    if(container.firstChild)
-                        container.removeChild(container.firstChild);
-                    const add_h2 = document.createElement("h2");
-                    add_h2.id = "add-success-message";
-                    add_h2.innerHTML = "Segnalazione inserita con successo!";
-                    container.appendChild(add_h2);
-                })
-                .catch(error => console.error("Errore: "+error));
+                .then(response => response.text())
+                .then((text) => {
+                    alert("Response: "+text);
+                });
             }
 
             function modifyRecord() {
                 
                 const fID = document.getElementById("id");
                 const fDatetime = document.getElementById("datetime2");
+                const fMilliseconds = document.getElementById("milliseconds2");
                 const fLatitude = document.getElementById("latitude2");
                 const fLongitude = document.getElementById("longitude2");
                 const fDepth = document.getElementById("depth2");
@@ -177,6 +175,7 @@
                 const url = "/earthquakes/modify/"+fID.value;
                 const data = {
                     "Data e Ora" : fDatetime.value,
+                    "Millisecondi" : fMilliseconds.value,
                     "Latitudine" : fLatitude.value,
                     "Longitudine" : fLongitude.value,
                     "Profondita" : fDepth.value,
@@ -195,16 +194,10 @@
                     },
                     body : JSON.stringify(data)
                 })
-                .then(() => {
-                    const container = document.getElementById("modify-response-container");
-                    if(container.firstChild)
-                        container.removeChild(container.firstChild);
-                    const modify_h2 = document.createElement("h2");
-                    modify_h2.id = "modify-success-message";
-                    modify_h2.innerHTML = "Segnalazione modificata con successo!";
-                    container.appendChild(modify_h2);
-                })
-                .catch(error => console.error("Errore: "+error));
+                .then(response => response.text())
+                .then((text) => {
+                    alert("Response: "+text);
+                });
             }
 
             function deleteRecord() {
@@ -218,17 +211,10 @@
                         "Content-Type" : "application/json"
                     }
                 })
-                .then(response => response.json())
-                .then(() => {
-                    const container = document.getElementById("delete-response-container");
-                    if(container.firstChild)
-                        container.removeChild(container.firstChild);
-                    const delete_h2 = document.createElement("h2");
-                    delete_h2.id = "delete-success-message";
-                    delete_h2.innerHTML = "Segnalazione rimossa con successo!";
-                    container.appendChild(delete_h2);
-                })
-                .catch(error => console.error("Errore: "+error));
+                .then(response => response.text())
+                .then((text) => {
+                    alert("Response: "+text);
+                });
             }
         </script>
     </div>

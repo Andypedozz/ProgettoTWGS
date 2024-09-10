@@ -14,19 +14,8 @@
     margin: 3%;
 }
 
-#add-response-container, #modify-response-container, #delete-response-container {
+h2 {
     text-align: center;
-}
-
-#add-title, #modify-title, #delete-title {
-    text-align: center;
-}
-
-#add-success-message, #modify-success-message, #delete-success-message {
-    color: green;
-    text-align: center;
-    border: 1px solid green;
-    background: lightgreen;
 }
 
 form > p {
