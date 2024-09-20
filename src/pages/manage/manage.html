@@ -172,8 +172,9 @@
                 const fMagnitude = document.getElementById("magnitude2");
                 const fZone = document.getElementById("zone2");
                 
-                const url = "/earthquakes/modify/"+fID.value;
+                const url = "/earthquakes/modify";
                 const data = {
+                    "ID" : fID.value,
                     "Data e Ora" : fDatetime.value,
                     "Millisecondi" : fMilliseconds.value,
                     "Latitudine" : fLatitude.value,

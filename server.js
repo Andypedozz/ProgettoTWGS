@@ -124,8 +124,9 @@ app.post("/earthquakes/add", (req, res) => {
     let highestRecord = currentEarthquakes[0];
     let lastId = parseInt(highestRecord["ID"]);
     let lastEventId = parseInt(highestRecord["EventID"]);
+
     data["Data e Ora"] = data["Data e Ora"].replace("T", " ");
-    data["Data e Ora"] = data["Data e Ora"] + " " + data["Millisecondi"];
+    data["Data e Ora"] = data["Data e Ora"] + "." + data["Millisecondi"];
 
     earthquake["ID"] = (lastId + 1).toString();
     earthquake["EventID"] = (lastEventId + 1).toString();
@@ -133,7 +134,9 @@ app.post("/earthquakes/add", (req, res) => {
     let keys = Object.keys(data);
 
     for(let i = 0; i < keys.length; i++) {
-        earthquake[keys[i]] = data[keys[i]];
+        if(keys[i] !== "Millisecondi") {
+            earthquake[keys[i]] = data[keys[i]];
+        }
     }
     
     console.log(earthquake);
@@ -144,7 +147,7 @@ app.post("/earthquakes/add", (req, res) => {
 });
 
 // PUT: update an earthquake report
-app.put("/earthquakes/modify/:id", (req, res) => {
+app.put("/earthquakes/modify", (req, res) => {
     if(currentEarthquakes.length == 0) {
         let message = "There are no reports";
         console.log("Response: "+message);
@@ -152,8 +155,12 @@ app.put("/earthquakes/modify/:id", (req, res) => {
         return 0;
     }
 
-    let id = req.params.id;
     let data = req.body;
+    let id = data["ID"];
+
+    data["Data e Ora"] = data["Data e Ora"].replace("T", " ");
+    data["Data e Ora"] = data["Data e Ora"] + "." + data["Millisecondi"];
+
     console.log(data);
     let record = currentEarthquakes.find(row => row["ID"] === id);
 
@@ -167,8 +174,10 @@ app.put("/earthquakes/modify/:id", (req, res) => {
     let keys = Object.keys(data);
 
     for(let i = 0; i < keys.length; i++) {
-        if(data[keys[i]] !== null || data[keys[i]] !== undefined) {
-            record[keys[i]] = data[keys[i]];
+        if(keys[i] !== "Millisecondi") {
+            if(data[keys[i]] !== null || data[keys[i]] !== undefined) {
+                record[keys[i]] = data[keys[i]];
+            }
         }
     }
 
