@@ -48,8 +48,7 @@ jspm_packages/
 
 #Earthquakes data
 *.csv
-
-server-film.js
+src/db
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
