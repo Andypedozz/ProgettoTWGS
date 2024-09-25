@@ -59,9 +59,10 @@ function fillTable(data) {
     const tbody = document.getElementById("tbody");
 
     // add rows
-    for(var i = 0; i < data.length; i++) {
-        let record = data[i];
+    for(let i = 0; i < data.length; i++) {
         let newRow = tbody.insertRow();
+        let record = data[i];
+
         newRow.class = "record-row";
         for(var j = 0; j < fixedColumns.length; j++) {
             let newCell = newRow.insertCell();

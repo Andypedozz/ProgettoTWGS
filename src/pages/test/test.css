@@ -1,0 +1,12 @@
+#content {
+    background: white;
+}
+
+#page-buttons {
+    text-align: center;
+}
+
+tr > td > a {
+    text-decoration: none;
+    color: black;
+}

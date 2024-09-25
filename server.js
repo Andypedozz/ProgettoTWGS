@@ -241,6 +241,10 @@ app.get("/manage", (req, res) => {
     res.sendFile(path.join(__dirname, "src/pages/manage/manage.html"));
 });
 
+app.get("/test", (req, res) => {
+    res.sendFile(path.join(__dirname, "src/pages/test/test.html"));
+});
+
 app.listen(port, () => {
     console.log("Server in ascolto sulla porta "+port);
 });
