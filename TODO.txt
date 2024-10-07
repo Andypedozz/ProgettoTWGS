@@ -1,2 +1,0 @@
-- Migliorare CSS
-- Aggiungere possibilità di modificare le segnalazioni esistenti o eliminarne

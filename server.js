@@ -21,9 +21,9 @@ app.use(express.json({ type: '*/*' }));
  */
 app.get('/earthquakes', (req, res) => {
     if(currentEarthquakes.length == 0) {
-        let message = "There are no reports";
+        let resMessage = "There are no reports";
         console.log("Response: "+message);
-        res.type("text/plain").send(message);
+        res.json({ message : resMessage});
         return 0;
     }
 
@@ -35,26 +35,27 @@ app.get('/earthquakes', (req, res) => {
  */
 app.get('/earthquakes/:id', (req, res) => {
     if(currentEarthquakes.length == 0) {
-        let message = "There are no reports";
-        console.log("Response: "+message);
-        res.type("text/plain").send(message);
+        let resMessage = "There are no reports";
+        console.log("Response: "+resMessage);
+        res.json({ message : resMessage});
         return 0;
     }
 
     const id = req.params.id;
     if(id == null) {
         res.status(400);
-        let message = "Id is null";
-        console.log("Response: "+message);
-        res.type("text/plain").send(message);
+        let resMessage = "Id is null";
+        console.log("Response: "+resMessage);
+        res.json({ message : resMessage});
     }
 
     let toReturn = currentEarthquakes.find(record => record["ID"] === id);
     if(toReturn == null || toReturn == undefined) {
         res.status(404);
-        let message = "Report not found!";
-        console.log("Response: "+message);
-        res.type("text/plain").send(message);
+        let resMessage = "Report not found!";
+        console.log("Response: "+resMessage);
+        res.json({ message : resMessage});
+        // res.type("text/plain").send(message);
     }
 
     res.status(200);
@@ -66,9 +67,9 @@ app.get('/earthquakes/:id', (req, res) => {
  */
 app.get('/earthquakes/:startIndex/:endIndex', (req, res) => {
     if(currentEarthquakes.length == 0) {
-        let message = "There are no reports";
-        console.log("Response: "+message);
-        res.type("text/plain").send(message);
+        let resMessage = "There are no reports";
+        console.log("Response: "+resMessage);
+        res.json({ message : resMessage});
         return 0;
     }
 
@@ -77,17 +78,18 @@ app.get('/earthquakes/:startIndex/:endIndex', (req, res) => {
 
     if(startIndex == null || endIndex == null) {
         res.status(400);
-        let message = "Either startIndex or endIndex is null";
-        console.log("Response: "+message)
-        res.type("text/plain").send(message);
+        let resMessage = "Either startIndex or endIndex is null";
+        console.log("Response: "+resMessage);
+        res.json({ message : resMessage});
         return 0;
     }
     
     let data = currentEarthquakes.slice(startIndex,endIndex);
     if(data == null || data == undefined) {
         res.status(404);
-        let message = "Invalid range or resources not found";
-        res.type("text/plain").send(message);
+        let resMessage = "Invalid range or resources not found";
+        console.log("Response: "+resMessage);
+        res.json({ message : resMessage});
     }
 
     res.status(200);
@@ -143,15 +145,17 @@ app.post("/earthquakes/add", (req, res) => {
     currentEarthquakes.unshift(earthquake);
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    res.type("text/plain").send("Successfully added record!");
+    let resMessage = "Successfully added record";
+    console.log("Response: "+resMessage);
+    res.json({ message : resMessage});
 });
 
 // PUT: update an earthquake report
 app.put("/earthquakes/modify", (req, res) => {
     if(currentEarthquakes.length == 0) {
-        let message = "There are no reports";
-        console.log("Response: "+message);
-        res.type("text/plain").send(message);
+        let resMessage = "There are no reports";
+        console.log("Response: "+resMessage);
+        res.json({ message : resMessage});
         return 0;
     }
 
@@ -166,9 +170,9 @@ app.put("/earthquakes/modify", (req, res) => {
 
     if(record == null || record == undefined) {
         res.status(404);
-        let message = "Record to modify doesn't exist";
-        console.log("Response: "+message);
-        res.type("text/plain").send(message);
+        let resMessage = "Record to modify doesn't exist";
+        console.log("Response: "+resMessage);
+        res.json({ message : resMessage});
     }
 
     let keys = Object.keys(data);
@@ -182,7 +186,10 @@ app.put("/earthquakes/modify", (req, res) => {
     }
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    res.type("text/plain").send("Successfully updated record!");
+    let response = {};
+    let resMessage = "Succesfully modified record";
+    console.log("Response: "+resMessage);
+    res.json({ message : resMessage});
 });
 
 /**
@@ -190,9 +197,9 @@ app.put("/earthquakes/modify", (req, res) => {
  */
 app.delete("/earthquakes/delete/:id", (req, res) => {
     if(currentEarthquakes.length == 0) {
-        let message = "There are no reports";
-        console.log("Response: "+message);
-        res.type("text/plain").send(message);
+        let resMessage = "There are no reports";
+        console.log("Response: "+resMessage);
+        res.json({ message : resMessage});
         return 0;
     }
 
@@ -201,15 +208,17 @@ app.delete("/earthquakes/delete/:id", (req, res) => {
     
     if (index === -1) {
         res.status(404);
-        let message = "Report not found!";
-        console.log("Response: "+message);
-        res.type("text/plain").send(message);
+        let resMessage = "Report not found!";
+        console.log("Response: "+resMessage);
+        res.json({ message : resMessage});
         return 0;
     }
     
     currentEarthquakes.splice(index, 1);
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    res.type("text/plain").send("Successfully deleted record!");
+    let resMessage = "Succesfully deleted record";
+    console.log("Response: "+resMessage);
+    res.json({ message : resMessage});
 });
 
 

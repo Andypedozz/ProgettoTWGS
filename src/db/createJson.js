@@ -24,7 +24,7 @@ function createJson() {
 
 function createJsonWithKeys() {
     // Leggi il file CSV
-    const csvFilePath = path.join(__dirname, 'earthquakes_cut.csv');
+    const csvFilePath = path.join(__dirname, 'earthquakes_test.csv');
     const csvContent = fs.readFileSync(csvFilePath, 'utf-8');
 
     // Splitta il contenuto del file in righe
