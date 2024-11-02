@@ -27,19 +27,14 @@ body {
 #navlist {
     background: white;
     text-align: center;
-    padding: 1%;
-    margin-bottom: 2%;
-}
-
-#navlist > ul > li {
-    display: inline-block;
-    padding: 1%;
-    border: 1px solid;
+    padding: 3%;
+    margin-top: 1%;
+    margin-bottom: 1%;
 }
 
 @media (max-width: 600px) {
     
-    #navlist > ul > li {
+    #navlist a {
         text-align: center;
         padding-left: 1%;
         padding-right: 1%;
@@ -47,32 +42,11 @@ body {
     }
 }
 
-#navlist > ul > li > a {
+#navlist a {
     text-decoration: none;
-    font-weight: bold;
     color: black;
-}
-
-table {
-    text-align: center;
-    margin: auto;
-    border: 1px solid;
-    margin-top: 1%;
-}
-
-table > thead {
-    background: rgb(102, 102, 102);
-}
-
-table > tbody > tr > td > a {
     font-weight: bold;
-}
-
-table > thead > tr > td {
-    color: white;
-}
-
-table > tbody > tr > td {
+    padding: 1%;
     border: 1px solid;
 }
 

@@ -1,0 +1,43 @@
+#page-buttons {
+    margin-top: 1% ;
+    text-align: center;
+    padding-bottom: 1%;
+}
+
+#page-buttons > button {
+    margin-top: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
+    margin-left: 1%;
+    margin-right: 1%;
+}
+
+table {
+    text-align: center;
+    margin: auto;
+    border: 1px solid;
+    margin-top: 1%;
+}
+
+table > thead {
+    background: rgb(102, 102, 102);
+}
+
+table > tbody > tr > td > a {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+table > thead > tr > td {
+    color: white;
+}
+
+table > tbody > tr > td {
+    border: 1px solid;
+}
+
+th {
+    background: rgb(102, 102, 102);
+    color: white;
+}

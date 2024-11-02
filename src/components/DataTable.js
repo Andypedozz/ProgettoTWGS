@@ -6,20 +6,38 @@ var pagination;
 var pages;
 var currentData;
 var tableColumns;
+var isStatic;
 
-function DataTable(containerId, columns, data) {
+function DataTable(containerId, columns, data, static) {
     containerName = containerId;
     tableColumns = columns;
     currentData = data;
-    pages = data.length / resultsPerPage;
+    if(data != null) {
+        pages = data.length / resultsPerPage;
+    }
+    isStatic = static;
     let page = 1;
 
     fillParts();
     fillHeader(columns);
     addPagination();
-    if(data != null || data.length > 0) {
-        updateTable(page);
+    if(data != null && data.length > 0) {
+        let indexes = getIndexes(page);
+        let data = currentData.slice(indexes[0],indexes[1]);
+        updateTable(data);
     }
+}
+
+function fillParts() {
+    const container = document.getElementById(containerName);
+    const table = document.createElement("table");
+    const thead = document.createElement("thead");
+    const tbody = document.createElement("tbody");
+    
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    container.appendChild(table);
+    fixedTable = table;
 }
 
 // Fill Header
@@ -36,17 +54,6 @@ function fillHeader(columns) {
     fixedTable.appendChild(thead);
 }
 
-function fillParts() {
-    const container = document.getElementById(containerName);
-    const table = document.createElement("table");
-    const thead = document.createElement("thead");
-    const tbody = document.createElement("tbody");
-    
-    table.appendChild(thead);
-    table.appendChild(tbody);
-    container.appendChild(table);
-    fixedTable = table;
-}
 
 // Fill rows
 function fillRows(data) {
@@ -101,12 +108,14 @@ function addPagination() {
     nextPageBtn.id = "next-page-btn";
     nextPageBtn.innerHTML = "Avanti";
 
-    prevPageBtn.addEventListener("click", function (e) {
-        previousPage();
-    });
-    nextPageBtn.addEventListener("click", function (e) {
-        nextPage();
-    });
+    if(isStatic) {
+        prevPageBtn.addEventListener("click", function (e) {
+            previousPage();
+        });
+        nextPageBtn.addEventListener("click", function (e) {
+            nextPage();
+        });
+    }
 
     div.appendChild(prevPageBtn);
     div.appendChild(pageIndexLbl);
@@ -117,8 +126,10 @@ function addPagination() {
 function clearRows() {
     const tbody = fixedTable.getElementsByTagName("tbody")[0];
     
-    while(tbody.firstChild) {
-        tbody.removeChild(tbody.firstChild);
+    if(tbody.hasChildNodes) {
+        while(tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
     }
 }
 
@@ -128,7 +139,9 @@ function previousPage() {
 
     if(page > 1) {
         page = page - 1;
-        updateTable(page);
+        let indexes = getIndexes(page);
+        let data = currentData.slice(indexes[0],indexes[1]);
+        updateTable(data);
         pageIndex.innerHTML = page;
     }
 }
@@ -139,119 +152,30 @@ function nextPage() {
 
     if(page < pages) {
         page = page + 1;
-        updateTable(page);
+        let indexes = getIndexes(page);
+        let data = currentData.slice(indexes[0],indexes[1]);
+        updateTable(data);
         pageIndex.innerHTML = page;
     }
 }
 
-function updateTable(page) {
-    const tbody = fixedTable.getElementsByTagName("tbody")[0];
-
-    if(tbody.hasChildNodes) {
-        clearRows();
-    }
-
+function getIndexes(page) {
     let startIndex = (page - 1) * resultsPerPage;
     let endIndex = startIndex + resultsPerPage;
-    let data = currentData.slice(startIndex,endIndex);
+    let indexes = [startIndex, endIndex];
+    return indexes;
+}
+
+function updateTable(data) {
+    clearRows();
     fillRows(data);
 }
 
-function fetchMapData() {
-    let mapData = [
-        {
-            "ID" : "0",
-            "EventID" : "0",
-            "Data e Ora" : "2024-12-04",
-            "Latitudine" : "13.3",
-            "Longitudine" : "12.5",
-            "Profondita" : "10",
-            "Localita" : "Fano"
-        },
-        {
-            "ID" : "1",
-            "EventID" : "1",
-            "Data e Ora" : "2024-12-04",
-            "Latitudine" : "13.3",
-            "Longitudine" : "12.5",
-            "Profondita" : "10",
-            "Localita" : "Fano"
-        },
-        {
-            "ID" : "2",
-            "EventID" : "2",
-            "Data e Ora" : "2024-12-04",
-            "Latitudine" : "13.3",
-            "Longitudine" : "12.5",
-            "Profondita" : "10",
-            "Localita" : "Fano"
-        },
-        {
-            "ID" : "3",
-            "EventID" : "3",
-            "Data e Ora" : "2024-12-04",
-            "Latitudine" : "13.3",
-            "Longitudine" : "12.5",
-            "Profondita" : "10",
-            "Localita" : "Fano"
-        },
-        {
-            "ID" : "4",
-            "EventID" : "4",
-            "Data e Ora" : "2024-12-04",
-            "Latitudine" : "13.3",
-            "Longitudine" : "12.5",
-            "Profondita" : "10",
-            "Localita" : "Fano"
-        },
-    ];
-
-    return mapData;
-}
-
-function fetchArrayData() {
-    let dataArray = [
-        [
-            "0",
-            "0",
-            "2024-12-04",
-            "13.3",
-            "12.5",
-            "10"
-        ],
-        [
-            "0",
-            "0",
-            "2024-12-04",
-            "13.3",
-            "12.5",
-            "10"
-        ],
-        [
-            "0",
-            "0",
-            "2024-12-04",
-            "13.3",
-            "12.5",
-            "10"
-        ],
-        [
-            "0",
-            "0",
-            "2024-12-04",
-            "13.3",
-            "12.5",
-            "10"
-        ],
-        [
-            "0",
-            "0",
-            "2024-12-04",
-            "13.3",
-            "12.5",
-            "10"
-        ],
-    ];
-
-    return dataArray;
+function clear() {
+    const container = document.getElementById(containerName);
+    if(container != null) {
+        while(container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+    }
 }
