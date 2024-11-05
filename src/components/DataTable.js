@@ -2,20 +2,19 @@ const resultsPerPage = 25;
 
 var containerName;
 var fixedTable;
-var pagination;
 var pages;
 var currentData;
 var tableColumns;
 var isStatic;
 
-function DataTable(containerId, columns, data, static) {
+function DataTable(containerId, columns, data, staticTable) {
     containerName = containerId;
     tableColumns = columns;
     currentData = data;
     if(data != null) {
         pages = data.length / resultsPerPage;
     }
-    isStatic = static;
+    isStatic = staticTable;
     let page = 1;
 
     fillParts();
