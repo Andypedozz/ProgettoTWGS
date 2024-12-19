@@ -21,14 +21,33 @@
     <div id="content">
         <section>
             <h2>Segnalazioni</h2>
-            <div id="reports-table-container">
+            <div id="table-container">
         
             </div>
             <!-- TABLE SWITCH PAGES -->
-            <script src="src/components/ReportsTable.js"></script>
+            <script src="src/components/DataTable2.js"></script>
+            <!-- <script src="src/components/ReportsTable.js"></script> -->
             <script>
-                let columns = ["ID","Data e Ora","Localita"];
-                ReportsTable("reports-table-container",columns);
+                const columns = ["ID","Data e Ora","Localita"];
+                const url = "/earthquakes";
+                fetch(url, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type" : "application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    new DataTable({
+                        containerId : "table-container",
+                        columns : columns,
+                        dataColumns : columns,
+                        data : data,
+                        pageResults : 20
+                    });
+                })
+
+                // ReportsTable("table-container", columns);
             </script>
         </section>
     </div>

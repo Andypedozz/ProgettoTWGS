@@ -12,13 +12,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/")));
 app.use(express.json({ type: '*/*' })); 
 
-/****************************/
-/*         ENDPOINT         */
-/****************************/
+/*****************************/
+/*         ENDPOINTS         */
+/*****************************/
 
-/**
- *  GET all earthquakes
- */
+// GET all earthquakes
 app.get('/earthquakes', (req, res) => {
     if(currentEarthquakes.length == 0) {
         let resMessage = "There are no reports";
@@ -30,9 +28,7 @@ app.get('/earthquakes', (req, res) => {
     res.json(currentEarthquakes);
 });
 
-/**
- *  GET an earthquake report by ID
- */
+// GET an earthquake report by ID
 app.get('/earthquakes/:id', (req, res) => {
     if(currentEarthquakes.length == 0) {
         let resMessage = "There are no reports";
@@ -55,16 +51,13 @@ app.get('/earthquakes/:id', (req, res) => {
         let resMessage = "Report not found!";
         console.log("Response: "+resMessage);
         res.json({ message : resMessage});
-        // res.type("text/plain").send(message);
     }
 
     res.status(200);
     res.json(toReturn);
 });
 
-/**
- *  GET a range of earthquakes reports
- */
+// GET a range of earthquakes reports
 app.get('/earthquakes/:startIndex/:endIndex', (req, res) => {
     if(currentEarthquakes.length == 0) {
         let resMessage = "There are no reports";
@@ -96,9 +89,7 @@ app.get('/earthquakes/:startIndex/:endIndex', (req, res) => {
     res.json(data);
 });
 
-/**
- *  GET all earthquakes reports with a certain key/value pair
- */
+// GET all earthquakes reports with a certain key/value pair
 app.get("/earthquakes/query/:key/:value", (req, res) => {
     const key = req.params.key;
     const value = req.params.value;
@@ -164,7 +155,7 @@ app.put("/earthquakes/modify", (req, res) => {
 
     data["Data e Ora"] = data["Data e Ora"].replace("T", " ");
     data["Data e Ora"] = data["Data e Ora"] + "." + data["Millisecondi"];
-
+    
     console.log(data);
     let record = currentEarthquakes.find(row => row["ID"] === id);
 
@@ -186,15 +177,12 @@ app.put("/earthquakes/modify", (req, res) => {
     }
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    let response = {};
     let resMessage = "Succesfully modified record";
     console.log("Response: "+resMessage);
     res.json({ message : resMessage});
 });
 
-/**
- *  DELETE an earthquake report
- */
+// DELETE an earthquake report
 app.delete("/earthquakes/delete/:id", (req, res) => {
     if(currentEarthquakes.length == 0) {
         let resMessage = "There are no reports";
@@ -221,39 +209,17 @@ app.delete("/earthquakes/delete/:id", (req, res) => {
     res.json({ message : resMessage});
 });
 
-
-/********************************/
-/*         ENDPOINT GUI         */
-/********************************/
-
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "src/pages/home/home.html"));
-});
-
-app.get("/home", (req, res) => {
-    res.sendFile(path.join(__dirname, "src/pages/home/home.html"));
-});
-
-app.get("/segnalazioni", (req, res) => {
-    res.sendFile(path.join(__dirname, "src/pages/segnalazioni/segnalazioni.html"));
-});
-
-app.get("/ricerca", (req, res) => {
-    res.sendFile(path.join(__dirname, "src/pages/ricerca/ricerca.html"));
-});
-
-app.get("/segnalazione", async function(req, res) {
-    res.sendFile(path.join(__dirname, "src/pages/segnalazione/segnalazione.html"));
-});
-
-app.get("/manage", (req, res) => {
-    res.sendFile(path.join(__dirname, "src/pages/manage/manage.html"));
-});
-
-app.get("/test", (req, res) => {
-    res.sendFile(path.join(__dirname, "src/pages/test/test.html"));
-});
-
 app.listen(port, () => {
     console.log("Server in ascolto sulla porta "+port);
 });
+
+/*********************************/
+/*         ENDPOINTS GUI         */
+/*********************************/
+
+const pages = ["home", "segnalazioni", "ricerca", "segnalazione", "manage", "test"];
+pages.forEach((page) =>
+    app.get(`/${page}`, (req, res) => res.sendFile(path.join(__dirname, `src/pages/${page}/${page}.html`)))
+);
+
+app.get("/", (req, res) => res.redirect("/home"));

@@ -1,4 +1,4 @@
-const resultsPerPage = 28;
+const resultsPerPage = 20;
 var fixedColumns;
 
 function ReportsTable(name, columns) {

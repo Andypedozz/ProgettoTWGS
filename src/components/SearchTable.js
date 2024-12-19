@@ -1,4 +1,4 @@
-const resultsPerPage = 25;
+const resultsPerPage = 20;
 
 var containerName;
 var fixedTable;
