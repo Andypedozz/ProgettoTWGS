@@ -57,7 +57,14 @@ class DataTable {
             for(const key of this.dataColumns) {
                 const field = record[key]; 
                 const td = document.createElement("td");
-                td.innerText = field;
+                if(key == "ID") {
+                    const a = document.createElement("a");
+                    a.innerText = field;
+                    a.href = "/segnalazione?ID="+field;
+                    td.appendChild(a);
+                }else{
+                    td.innerText = field;
+                }
                 row.appendChild(td);
             }
             tbody.appendChild(row);

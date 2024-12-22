@@ -42,12 +42,25 @@ body {
     }
 }
 
-#navlist a {
+/* #navlist a {
     text-decoration: none;
     color: black;
     font-weight: bold;
     padding: 1%;
     border: 1px solid;
+} */
+
+#navlist a {
+    text-decoration: none;
+    background: black;
+    color: white;
+    padding: 1%;
+    margin: 1%;
+    border-radius: 20px;
+}
+
+#navlist a:hover {
+    background: rgb(83, 83, 83);
 }
 
 footer > p {
