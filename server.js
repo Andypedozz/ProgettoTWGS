@@ -4,18 +4,22 @@ const fs = require("fs");
 const app = express();
 const port = 3002;
 
+// Database
 const earthquakes = fs.readFileSync("src/db/earthquakes.json");
 var currentEarthquakes = JSON.parse(earthquakes);
 currentEarthquakes = Object.values(currentEarthquakes);
 
+// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/")));
 app.use(express.json({ type: '*/*' }));
 
+// Function to find a report by index
 function findReportByIndex(index) {
     return currentEarthquakes.find(record => record["ID"] == index);
 }
 
+// Function to easily send a response with message and status
 function respondWithMessage(res, status, error) {
     let resMessage = { message : error };
     res.status(status);
@@ -27,6 +31,7 @@ function respondWithMessage(res, status, error) {
 /*         ENDPOINTS         */
 /*****************************/
 
+// GET all earthquakes
 app.get("/earthquakes", (req, res) => {
     if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
 
@@ -34,6 +39,7 @@ app.get("/earthquakes", (req, res) => {
     res.json(currentEarthquakes);
 });
 
+// GET earthquake report by id
 app.get("/earthquakes/:id", (req, res) => {
     if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
 
@@ -50,6 +56,7 @@ app.get("/earthquakes/:id", (req, res) => {
     res.json(toReturn);
 });
 
+// GET earthquakes between id range
 app.get("/earthquakes/:startIndex/:endIndex", (req, res) => {
     if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
 
@@ -67,6 +74,7 @@ app.get("/earthquakes/:startIndex/:endIndex", (req, res) => {
     res.json(data);
 });
 
+// GET search earthquake with certain key-value
 app.get("/earthquakes/query/:key/:value", (req, res) => {
     if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
 
@@ -87,8 +95,8 @@ app.get("/earthquakes/query/:key/:value", (req, res) => {
     res.json(result);
 });
 
-
-app.get("/earthquakes/add", (req, res) => {
+// POST add a new earthquake report
+app.post("/earthquakes/add", (req, res) => {
     let data = req.body;
     let earthquake = {};
 
@@ -117,7 +125,8 @@ app.get("/earthquakes/add", (req, res) => {
     return respondWithMessage(res, 200, "Succesfully added report!");
 });
 
-app.get("/earthquakes/modify", (req, res) => {
+// PUT modify an existing report
+app.put("/earthquakes/modify", (req, res) => {
     if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
 
     let data = req.body;
@@ -144,7 +153,8 @@ app.get("/earthquakes/modify", (req, res) => {
     return respondWithMessage(res, 200, "Succesfully modified report!");
 });
 
-app.get("/earthquakes/delete/:id", (req, res) => {
+// DELETE delete an earthquake report
+app.delete("/earthquakes/delete/:id", (req, res) => {
     if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
 
     const id = req.params.id;
@@ -156,6 +166,7 @@ app.get("/earthquakes/delete/:id", (req, res) => {
     return respondWithMessage(res, 200, "Successfully deleted report!");
 });
 
+// Start server
 app.listen(port, () => {
     console.log("Server in ascolto sulla porta "+port);
 });

@@ -11,10 +11,12 @@
 <header id="head">
     <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
     <nav id="navlist">
-        <a href="/home">Home</a>
-        <a href="/segnalazioni">Segnalazioni</a>
-        <a href="/ricerca">Ricerca</a>
-        <a href="/manage">Gestisci segnalazioni</a>
+        <ul>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/segnalazioni">Segnalazioni</a></li>
+            <li><a href="/ricerca">Ricerca</a></li>
+            <li><a href="/manage">Gestisci segnalazioni</a></li>
+        </ul>
     </nav>
 </header>
 <body>
@@ -22,11 +24,8 @@
         <section>
             <h2>Segnalazioni</h2>
             <div id="table-container">
-        
             </div>
-            <!-- TABLE SWITCH PAGES -->
             <script src="src/components/DataTable2.js"></script>
-            <!-- <script src="src/components/ReportsTable.js"></script> -->
             <script>
                 const columns = ["ID","Data e Ora","Localita"];
                 const url = "/earthquakes";
@@ -46,8 +45,6 @@
                         pageResults : 20
                     });
                 })
-
-                // ReportsTable("table-container", columns);
             </script>
         </section>
     </div>

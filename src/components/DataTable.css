@@ -20,7 +20,7 @@ table {
 }
 
 table > thead {
-    background: rgb(102, 102, 102);
+    background: rgb(36, 36, 36);
 }
 
 table > tbody > tr > td > a {
@@ -38,6 +38,6 @@ table > tbody > tr > td {
 }
 
 th {
-    background: rgb(102, 102, 102);
+    background: rgb(36, 36, 36);
     color: white;
 }
