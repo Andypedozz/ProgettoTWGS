@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const app = express();
+// const port = process.env.PORT;
 const port = 3002;
 
 // Database
@@ -158,10 +159,10 @@ app.delete("/earthquakes/delete/:id", (req, res) => {
     if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
 
     const id = req.params.id;
-    const record = findReportByIndex(id);
-    if(!record) return respondWithMessage(res, 404, "Report not found!");
+    const index = currentEarthquakes.findIndex(record => record["ID"] == id);
+    if(index == -1) return respondWithMessage(res, 404, "Report not found!");
 
-    currentEarthquakes.splice(record["ID"], 1);
+    currentEarthquakes.splice(index, 1);
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
     return respondWithMessage(res, 200, "Successfully deleted report!");
 });

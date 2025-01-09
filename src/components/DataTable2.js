@@ -77,11 +77,11 @@ class DataTable {
         const div = document.createElement("div");
         div.id = "page-buttons";
         const prevBtn = document.createElement("button");
-        prevBtn.innerText = "Previous";
+        prevBtn.innerText = "Indietro";
         const pageLbl = document.createElement("label");
         pageLbl.innerText = this.page;
         const nextBtn = document.createElement("button");
-        nextBtn.innerText = "Next";
+        nextBtn.innerText = "Avanti";
 
         prevBtn.addEventListener("click", () => {
             if(this.page > 1) {
