@@ -7,13 +7,13 @@ const port = 3002;
 
 // Database
 const earthquakes = fs.readFileSync("src/db/earthquakes.json");
-var currentEarthquakes = JSON.parse(earthquakes);
-currentEarthquakes = Object.values(currentEarthquakes);
+let currentEarthquakes = Object.values(JSON.parse(earthquakes));
 
 // Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/")));
-app.use(express.json({ type: '*/*' }));
+app.use(express.json());
+// app.use(express.json({ type: '*/*' }));
 
 // Function to find a report by index
 function findReportByIndex(index) {
@@ -46,7 +46,6 @@ app.get("/earthquakes/:id", (req, res) => {
 
     // Check if id param is present
     const id = req.params.id;
-    if(!id) return respondWithMessage(res, 400, "Invalid id");
 
     // Check if report exists
     const toReturn = findReportByIndex(id);
@@ -61,14 +60,16 @@ app.get("/earthquakes/:id", (req, res) => {
 app.get("/earthquakes/:startIndex/:endIndex", (req, res) => {
     if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
 
-    const { startIndex, endIndex } = req.params;
-    if((!startIndex || !endIndex) || (parseInt(startIndex) > parseInt(endIndex))) {
-        console.log(startIndex);
-        console.log(endIndex);
+    const startIndex = parseInt(req.params.startIndex);
+    const endIndex = parseInt(req.params.endIndex);
+    let data;
+    
+    if((startIndex > endIndex)) {
+        console.log("Start index: "+startIndex);
+        console.log("End index: "+endIndex);
         return respondWithMessage(res, 400, "Invalid range!");
     }
-
-    const data = currentEarthquakes.slice(startIndex,endIndex);
+    data = currentEarthquakes.filter(report => report["ID"] >= startIndex && report["ID"] <= endIndex);
     if(!data) return respondWithMessage(res, 404, "Resources not found!");
 
     res.status(200);
@@ -101,7 +102,7 @@ app.post("/earthquakes/add", (req, res) => {
     let data = req.body;
     let earthquake = {};
 
-    let highestRecord = currentEarthquakes[0];
+    let highestRecord = currentEarthquakes[currentEarthquakes.length - 1];
     let lastId = parseInt(highestRecord["ID"]);
     let lastEventId = parseInt(highestRecord["EventID"]);
 
@@ -120,7 +121,7 @@ app.post("/earthquakes/add", (req, res) => {
     }
     
     console.log(earthquake);
-    currentEarthquakes.unshift(earthquake);
+    currentEarthquakes.push(earthquake);
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
     return respondWithMessage(res, 200, "Succesfully added report!");
@@ -168,9 +169,7 @@ app.delete("/earthquakes/delete/:id", (req, res) => {
 });
 
 // Start server
-app.listen(port, () => {
-    console.log("Server in ascolto sulla porta "+port);
-});
+app.listen(port, ()=>console.log("Server in ascolto sulla porta " + port));
 
 /*********************************/
 /*         ENDPOINTS GUI         */

@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const parse = require("csv-parse").parse;
 
-function createJsonWithKeys() {
+function createJsonReplaceIds() {
     // Leggi il file CSV
     const csvFilePath = path.join(__dirname, 'earthquakes.csv');
     const csvContent = fs.readFileSync(csvFilePath, 'utf-8');
@@ -12,13 +12,13 @@ function createJsonWithKeys() {
     
     // Ottieni i nomi delle colonne dalla prima riga
     const headers = lines[0].split(',');
-    lines.reverse();
+    // lines.reverse();
 
     // Crea un array per contenere i dati JSON
     const jsonData = [];
 
     // Itera sulle righe successive (dalla seconda riga in poi)
-    for (let i = 0; i < lines.length - 1; i++) {
+    for (let i = 1; i < lines.length; i++) {
         const line = lines[i].trim();
         if (line) {
             const values = line.split(',');
@@ -34,6 +34,11 @@ function createJsonWithKeys() {
         }
     }
 
+    // Riassegna id da 0
+    for(let i = 0; i < jsonData.length; i++) {
+        jsonData[i]["ID"] = i.toString();
+    }
+
     // Converti l'array in una stringa JSON
     const jsonResult = JSON.stringify(jsonData, null, 4);
 
@@ -41,5 +46,4 @@ function createJsonWithKeys() {
     fs.writeFileSync('earthquakes.json', jsonResult);
 }
 
-
-createJsonWithKeys();
+createJsonReplaceIds();
