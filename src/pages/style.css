@@ -42,7 +42,7 @@ header h1 {
     background: rgb(94, 94, 94);
 }
 
-#content {
+main {
     background: white;
     padding: 1%;
 }

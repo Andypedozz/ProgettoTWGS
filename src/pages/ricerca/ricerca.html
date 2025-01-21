@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +8,17 @@
     <link rel="stylesheet" type="text/css" href="../../../src/pages/ricerca/ricerca.css" />
     <link rel="stylesheet" type="text/css" href="../../../src/components/DataTable.css" />
 </head>
-<header id="head">
-    <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
-    <nav id="navlist">
-        <a href="/home">Home</a>
-        <a href="/segnalazioni">Segnalazioni</a>
-        <a href="/ricerca">Ricerca</a>
-        <a href="/manage">Gestisci segnalazioni</a>
-    </nav>
-</header>
 <body>
-    <div id="content">
+    <header id="head">
+        <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
+        <nav id="navlist">
+            <a href="/home">Home</a>
+            <a href="/segnalazioni">Segnalazioni</a>
+            <a href="/ricerca">Ricerca</a>
+            <a href="/manage">Gestisci segnalazioni</a>
+        </nav>
+    </header>
+    <main>
         <h2>Ricerca segnalazioni</h2>
         <form action="javascript:loadTable()">
             <label id="prop-label">Proprietà</label>
@@ -54,8 +54,8 @@
                     inputField.disabled = false;
                 }
             </script>
-            <input type="text" id="input-field" name="value" required="true" disabled="true">
-            <input type="submit" id="confirm" disabled="true" value="Cerca" />
+            <input type="text" id="input-field" name="value" required disabled>
+            <input type="submit" id="confirm" disabled value="Cerca" />
             <script id="input-change-script">
                 
                 const inputField = document.getElementById("input-field");
@@ -101,7 +101,7 @@
             }
             
         </script>
-    </div>
+    </main>
     <footer>
         <p>
             I dati utilizzati in questo sito sono presi da <a href="https://www.kaggle.com/code/booroom/italian-earthquakes-eda">www.kaggle.com</a><br>

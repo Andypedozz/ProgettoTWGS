@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,17 +8,17 @@
     <link rel="stylesheet" type="text/css" href="../../../src/pages/segnalazioni/segnalazioni.css" />
     <link rel="stylesheet" type="text/css" href="../../../src/components/DataTable.css" />
 </head>
-<header id="head">
-    <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
-    <nav id="navlist">
-        <a href="/home">Home</a>
-        <a href="/segnalazioni">Segnalazioni</a>
-        <a href="/ricerca">Ricerca</a>
-        <a href="/manage">Gestisci segnalazioni</a>
-    </nav>
-</header>
 <body>
-    <div id="content">
+    <header id="head">
+        <h1 id="title">SISTEMA DI CONSULTAZIONE TERREMOTI ITALIANI</h1>
+        <nav id="navlist">
+            <a href="/home">Home</a>
+            <a href="/segnalazioni">Segnalazioni</a>
+            <a href="/ricerca">Ricerca</a>
+            <a href="/manage">Gestisci segnalazioni</a>
+        </nav>
+    </header>
+    <main>
         <section>
             <h2>Segnalazioni</h2>
             <div id="table-container">
@@ -45,7 +45,7 @@
                 })
             </script>
         </section>
-    </div>
+    </main>
     <footer>
         <p>
             I dati utilizzati in questo sito sono presi da <a href="https://www.kaggle.com/code/booroom/italian-earthquakes-eda">www.kaggle.com</a><br>
