@@ -18,7 +18,7 @@
         </nav>
     </header>
     <main>
-        <section>
+        <section id="add-report">
             <h2>Aggiungi una segnalazione</h2>
             <div class="form-container">
                 <form action="javascript:addRecord()">
@@ -61,8 +61,49 @@
                     <input type="submit" id="confirm" value="Conferma" />
                 </form>
             </div>
+            <script>
+                function addRecord() {
+                    const url = "/earthquakes/add";
+        
+                    const fDatetime = document.getElementById("datetime");
+                    const fMilliseconds = document.getElementById("milliseconds");
+                    const fLatitude = document.getElementById("latitude");
+                    const fLongitude = document.getElementById("longitude");
+                    const fDepth = document.getElementById("depth");
+                    const fAuthor = document.getElementById("author");
+                    const fMagType = document.getElementById("magType");
+                    const fMagnitude = document.getElementById("magnitude");
+                    const fZone = document.getElementById("zone");
+        
+                    const data = {
+                        "Data e Ora" : fDatetime.value,
+                        "Millisecondi" : fMilliseconds.value,
+                        "Latitudine" : fLatitude.value,
+                        "Longitudine" : fLongitude.value,
+                        "Profondita" : fDepth.value,
+                        "Autore" : fAuthor.value,
+                        "MagType" : fMagType.value,
+                        "Magnitudo" : fMagnitude.value,
+                        "Localita" : fZone.value
+                    }
+        
+                    console.log(JSON.stringify(data));
+        
+                    fetch(url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type" : "application/json"
+                        },
+                        body : JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then((json) => {
+                        alert("Response: "+json.message);
+                    });
+                }
+            </script>
         </section>
-        <section>
+        <section id="modify-report">
             <h2>Modifica una segnalazione</h2>
             <div class="form-container">
                 <form action="javascript:modifyRecord()">
@@ -109,8 +150,51 @@
                     <input type="submit" id="confirm2" value="Conferma" />
                 </form>
             </div>
+            <script>
+                function modifyRecord() {
+                
+                    const fID = document.getElementById("id");
+                    const fDatetime = document.getElementById("datetime2");
+                    const fMilliseconds = document.getElementById("milliseconds2");
+                    const fLatitude = document.getElementById("latitude2");
+                    const fLongitude = document.getElementById("longitude2");
+                    const fDepth = document.getElementById("depth2");
+                    const fAuthor = document.getElementById("author2");
+                    const fMagType = document.getElementById("magType2");
+                    const fMagnitude = document.getElementById("magnitude2");
+                    const fZone = document.getElementById("zone2");
+                    
+                    const url = "/earthquakes/modify";
+                    const data = {
+                        "ID" : fID.value,
+                        "Data e Ora" : fDatetime.value,
+                        "Millisecondi" : fMilliseconds.value,
+                        "Latitudine" : fLatitude.value,
+                        "Longitudine" : fLongitude.value,
+                        "Profondita" : fDepth.value,
+                        "Autore" : fAuthor.value,
+                        "MagType" : fMagType.value,
+                        "Magnitudo" : fMagnitude.value,
+                        "Localita" : fZone.value
+                    }
+
+                    console.log(JSON.stringify(data));
+        
+                    fetch(url, {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type" : "application/json"
+                        },
+                        body : JSON.stringify(data)
+                    })
+                    .then(response => response.json())
+                    .then((json) => {
+                        alert("Response: "+json.message);
+                    });
+                }
+            </script>
         </section>
-        <section>
+        <section id="delete-report">
             <h2>Elimina una segnalazione</h2>
             <div class="form-container">
                 <form action="javascript:deleteRecord()">
@@ -121,107 +205,25 @@
                     <input type="submit" id="confirm3" value="Conferma" />
                 </form>
             </div>
+            <script>
+                function deleteRecord() {
+                
+                    const fID = document.getElementById("id2");
+                    const url = "/earthquakes/delete/"+fID.value;
+                    
+                    fetch(url, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type" : "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then((json) => {
+                        alert("Response: "+json.message);
+                    });
+                }
+            </script>
         </section>
-        <script>
-            function addRecord() {
-                const url = "/earthquakes/add";
-    
-                const fDatetime = document.getElementById("datetime");
-                const fMilliseconds = document.getElementById("milliseconds");
-                const fLatitude = document.getElementById("latitude");
-                const fLongitude = document.getElementById("longitude");
-                const fDepth = document.getElementById("depth");
-                const fAuthor = document.getElementById("author");
-                const fMagType = document.getElementById("magType");
-                const fMagnitude = document.getElementById("magnitude");
-                const fZone = document.getElementById("zone");
-    
-                const data = {
-                    "Data e Ora" : fDatetime.value,
-                    "Millisecondi" : fMilliseconds.value,
-                    "Latitudine" : fLatitude.value,
-                    "Longitudine" : fLongitude.value,
-                    "Profondita" : fDepth.value,
-                    "Autore" : fAuthor.value,
-                    "MagType" : fMagType.value,
-                    "Magnitudo" : fMagnitude.value,
-                    "Localita" : fZone.value
-                }
-    
-                console.log(JSON.stringify(data));
-    
-                fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type" : "application/json"
-                    },
-                    body : JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then((json) => {
-                    alert("Response: "+json.message);
-                });
-            }
-
-            function modifyRecord() {
-                
-                const fID = document.getElementById("id");
-                const fDatetime = document.getElementById("datetime2");
-                const fMilliseconds = document.getElementById("milliseconds2");
-                const fLatitude = document.getElementById("latitude2");
-                const fLongitude = document.getElementById("longitude2");
-                const fDepth = document.getElementById("depth2");
-                const fAuthor = document.getElementById("author2");
-                const fMagType = document.getElementById("magType2");
-                const fMagnitude = document.getElementById("magnitude2");
-                const fZone = document.getElementById("zone2");
-                
-                const url = "/earthquakes/modify";
-                const data = {
-                    "ID" : fID.value,
-                    "Data e Ora" : fDatetime.value,
-                    "Millisecondi" : fMilliseconds.value,
-                    "Latitudine" : fLatitude.value,
-                    "Longitudine" : fLongitude.value,
-                    "Profondita" : fDepth.value,
-                    "Autore" : fAuthor.value,
-                    "MagType" : fMagType.value,
-                    "Magnitudo" : fMagnitude.value,
-                    "Localita" : fZone.value
-                }
-
-                console.log(JSON.stringify(data));
-    
-                fetch(url, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type" : "application/json"
-                    },
-                    body : JSON.stringify(data)
-                })
-                .then(response => response.json())
-                .then((json) => {
-                    alert("Response: "+json.message);
-                });
-            }
-
-            function deleteRecord() {
-                
-                const fID = document.getElementById("id2");
-                const url = "/earthquakes/delete/"+fID.value;
-                
-                fetch(url, {
-                    method: "DELETE",
-                    headers: {
-                        "Content-Type" : "application/json"
-                    }
-                })
-                .then(response => response.json())
-                .then((json) => {
-                    alert("Response: "+json.message);
-                });
-            }
-        </script>
     </main>
     <footer>
         <p>
