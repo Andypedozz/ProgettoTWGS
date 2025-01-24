@@ -85,4 +85,4 @@ function createJsonReplaceIds() {
     fs.writeFileSync('earthquakes.json', jsonResult);
 }
 
-createJson();
+createJsonReplaceIds();
