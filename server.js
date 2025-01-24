@@ -34,7 +34,7 @@ function respondWithMessage(res, status, error) {
 
 // GET all earthquakes
 app.get("/earthquakes", (req, res) => {
-    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
+    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "Non ci sono report!");
 
     res.status(200);
     res.json(currentEarthquakes);
@@ -42,14 +42,14 @@ app.get("/earthquakes", (req, res) => {
 
 // GET earthquake report by id
 app.get("/earthquakes/:id", (req, res) => {
-    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
+    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "Non ci sono report!");
 
     // Check if id param is present
     const id = req.params.id;
 
     // Check if report exists
     const toReturn = findReportByIndex(id);
-    if(!toReturn) return respondWithMessage(res, 404, "Report not found");
+    if(!toReturn) return respondWithMessage(res, 404, "Report non trovato!");
 
     // return report
     res.status(200);
@@ -58,7 +58,7 @@ app.get("/earthquakes/:id", (req, res) => {
 
 // GET earthquakes between id range
 app.get("/earthquakes/:startIndex/:endIndex", (req, res) => {
-    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
+    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "Non ci sono report!");
 
     const startIndex = parseInt(req.params.startIndex);
     const endIndex = parseInt(req.params.endIndex);
@@ -67,10 +67,10 @@ app.get("/earthquakes/:startIndex/:endIndex", (req, res) => {
     if((startIndex > endIndex)) {
         console.log("Start index: "+startIndex);
         console.log("End index: "+endIndex);
-        return respondWithMessage(res, 400, "Invalid range!");
+        return respondWithMessage(res, 400, "Range non valido!");
     }
     data = currentEarthquakes.filter(report => report["ID"] >= startIndex && report["ID"] <= endIndex);
-    if(!data) return respondWithMessage(res, 404, "Resources not found!");
+    if(!data) return respondWithMessage(res, 404, "Non ci sono report nel range richiesto!");
 
     res.status(200);
     res.json(data);
@@ -78,7 +78,7 @@ app.get("/earthquakes/:startIndex/:endIndex", (req, res) => {
 
 // GET search earthquake with certain key-value
 app.get("/earthquakes/query/:key/:value", (req, res) => {
-    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
+    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "Non ci sono report!");
 
     const key = req.params.key;
     const value = req.params.value;
@@ -124,12 +124,12 @@ app.post("/earthquakes/add", (req, res) => {
     currentEarthquakes.push(earthquake);
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    return respondWithMessage(res, 200, "Succesfully added report!");
+    return respondWithMessage(res, 200, "Report aggiunto con successo!");
 });
 
 // PUT modify an existing report
 app.put("/earthquakes/modify", (req, res) => {
-    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
+    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "Non ci sono report!");
 
     let data = req.body;
     let id = data["ID"];
@@ -139,7 +139,7 @@ app.put("/earthquakes/modify", (req, res) => {
     
     let record = findReportByIndex(id);
 
-    if(!record) return respondWithMessage(res, 404, "Report to modify doesn't exist");
+    if(!record) return respondWithMessage(res, 404, "Report non trovato!");
 
     let keys = Object.keys(data);
 
@@ -152,20 +152,20 @@ app.put("/earthquakes/modify", (req, res) => {
     }
 
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    return respondWithMessage(res, 200, "Succesfully modified report!");
+    return respondWithMessage(res, 200, "Report modificato con successo!");
 });
 
 // DELETE delete an earthquake report
 app.delete("/earthquakes/delete/:id", (req, res) => {
-    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "There are no reports");
+    if(currentEarthquakes.length == 0) return respondWithMessage(res, 404, "Non ci sono report!");
 
     const id = req.params.id;
     const index = currentEarthquakes.findIndex(record => record["ID"] == id);
-    if(index == -1) return respondWithMessage(res, 404, "Report not found!");
+    if(index == -1) return respondWithMessage(res, 404, "Report non trovato!");
 
     currentEarthquakes.splice(index, 1);
     fs.writeFileSync("src/db/earthquakes.json", JSON.stringify(currentEarthquakes));
-    return respondWithMessage(res, 200, "Successfully deleted report!");
+    return respondWithMessage(res, 200, "Report eliminato con successo!");
 });
 
 // Start server
