@@ -28,11 +28,11 @@ class DataTable {
         this.container.appendChild(table);
     }
 
+    // generate header
     loadHeader() {
         const table = this.container.getElementsByTagName("table")[0];
         const thead = document.createElement("thead");
 
-        // generate header
         const row = document.createElement("tr");
         const cols = Object.values(this.columns);
         cols.forEach(element => {
@@ -44,13 +44,13 @@ class DataTable {
         table.appendChild(thead);
     }
     
+    // generate rows
     updateRows() {
         this.clearRows();
         const table = this.container.getElementsByTagName("table")[0];
         const tbody = document.createElement("tbody");
         
-        // generate rows
-        const [startIndex, endIndex] = this.getIndexes(this.page);
+        const [startIndex, endIndex] = this.getIndexes();
         const data = this.data.slice(startIndex, endIndex);
         data.forEach(record => {
             const row = document.createElement("tr");
@@ -105,8 +105,8 @@ class DataTable {
         this.container.appendChild(div);
     }
 
-    getIndexes(page) {
-        const startIndex = (page - 1) * this.resultsPerPage;
+    getIndexes() {
+        const startIndex = (this.page - 1) * this.resultsPerPage;
         const endIndex = startIndex + this.resultsPerPage;
         const indexes = [startIndex, endIndex];
         return indexes;

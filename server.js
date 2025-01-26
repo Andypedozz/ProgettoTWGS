@@ -13,7 +13,6 @@ let currentEarthquakes = Object.values(JSON.parse(earthquakes));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/")));
 app.use(express.json());
-// app.use(express.json({ type: '*/*' }));
 
 // Function to find a report by index
 function findReportByIndex(index) {
@@ -24,6 +23,7 @@ function findReportByIndex(index) {
 function respondWithMessage(res, status, error) {
     let resMessage = { message : error };
     res.status(status);
+    res.type("application/json");
     console.log("Response: "+error);
     res.json(resMessage);
 }
