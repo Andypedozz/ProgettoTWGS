@@ -2,8 +2,7 @@ const express = require("express");
 const path = require("path");
 const fs = require("fs");
 const app = express();
-// const port = process.env.PORT;
-const port = 3002;
+const port = (process.env.PORT)? process.env.PORT : 3002;
 
 // Database
 const earthquakes = fs.readFileSync("src/db/earthquakes.json");
