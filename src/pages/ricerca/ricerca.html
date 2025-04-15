@@ -40,12 +40,15 @@
                     const selectElement = document.getElementById('key-select');
                     const selectedValue = selectElement.value;
                     let inputField = document.getElementById("input-field");
-    
-                    if(selectedValue === "ID" || selectedValue === "EventID" || selectedValue === "Anno" || selectedValue === "Latitudine" || selectedValue === "Longitudine" || selectedValue === "Profondita" || selectedValue === "Magnitudo") {
+
+                    const numericKeys = ["ID","EventID","Anno","Latitudine","Longitudine","Profondita","Magnitudo"];
+                    const textKeys = ["Autore","MagType","Localita"];
+
+                    if(numericKeys.includes(selectedValue)) {
                         inputField.type = "number";
                         inputField.step = "any";
                     }
-                    else if(selectedValue === "Autore" || selectedValue === "MagType" || selectedValue === "Localita"){
+                    else if(textKeys.includes(selectedValue)){
                         inputField.type = "text";
                     }
                     else if(selectedValue === "Data"){
